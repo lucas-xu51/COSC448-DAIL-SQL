@@ -13,7 +13,7 @@ def init_chatgpt(OPENAI_API_KEY, OPENAI_GROUP_ID, model):
     #     openai.api_key = OPENAI_API_KEY
     #     openai.organization = OPENAI_GROUP_ID
     openai.api_key = OPENAI_API_KEY
-    openai.organization = OPENAI_GROUP_ID
+    # openai.organization = OPENAI_GROUP_ID
 
 
 def ask_completion(model, batch, temperature):

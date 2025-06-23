@@ -1,2 +1,5 @@
 .idea
 .DS_Store
+dataset/
+third_party/
+vector_cache/
