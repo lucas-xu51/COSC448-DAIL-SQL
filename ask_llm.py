@@ -32,7 +32,7 @@ if __name__ == '__main__':
     parser.add_argument("--mini_index_path", type=str, default="")
     parser.add_argument("--batch_size", type=int, default=1)
     parser.add_argument("--n", type=int, default=5, help="Size of self-consistent set")
-    parser.add_argument("--db_dir", type=str, default="dataset/spider/database")
+    parser.add_argument("--db_dir", type=str, default="dataset/cosc304/database")
     args = parser.parse_args()
 
     # check args

@@ -100,14 +100,17 @@ def bird_pre_process(bird_dir, with_evidence=False):
         tables.extend(json.load(f))
     with open(os.path.join(bird_dir, 'tables.json'), 'w') as f:
         json.dump(tables, f, indent=4)
-
+  
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--data_dir", type=str, default="./dataset/spider")
-    parser.add_argument("--data_type", type=str, choices=["spider", "bird"], default="spider")
+    parser.add_argument("--data_type", type=str, choices=["spider", "bird", "cosc304"], default="spider")
     args = parser.parse_args()
+
+    print("Data directory:", args.data_dir)
+    print("Data type:", args.data_type)
 
     data_type = args.data_type
     if data_type == "spider":
@@ -139,3 +142,17 @@ if __name__ == '__main__':
         bird_db = 'databases'
         ## do not compute the cv_link since it is time-consuming in the huge database in BIRD
         schema_linking_producer(bird_dev, bird_train, bird_table, bird_db, bird_dir, compute_cv_link=False)
+    elif data_type == "cosc304":
+        cosc304_dir = args.data_dir
+        cosc304_dev = "dev.json"
+        cosc304_train = "train.json"
+        cosc304_table = "tables.json"
+        cosc304_db = "database"
+        schema_linking_producer(
+            cosc304_dev,
+            cosc304_train,
+            cosc304_table,
+            cosc304_db,
+            cosc304_dir,
+            compute_cv_link=False
+        )
