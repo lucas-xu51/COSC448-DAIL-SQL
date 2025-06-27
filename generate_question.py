@@ -61,8 +61,19 @@ if __name__ == '__main__':
     parser.add_argument("--tokenizer", type=str, default="gpt-3.5-turbo")
     parser.add_argument("--scope_factor", type=int, default=100, help="Times of the searching scope")
     parser.add_argument("--pre_test_result", type=str, default=None)
+    # (new) add argument for M-Schema
+    parser.add_argument("--use_mschema", type=str, default=None, help="Path to M-Schema JSON file. If not set, use original schema.")
 
     args = parser.parse_args()
+
+    # (new) check if M-Schema is provided
+    if args.use_mschema:  
+        if not os.path.exists(args.use_mschema):
+            raise FileNotFoundError(f"M-Schema file not found: {args.use_mschema}")
+        with open(args.use_mschema, "r", encoding="utf-8") as f:
+            mschema_str = f.read()
+    else:
+        mschema_str = None
 
     # load test dataset here
     data = load_data(args.data_type, PATH_DATA, args.pre_test_result)
@@ -80,8 +91,9 @@ if __name__ == '__main__':
     # choose split
     func_name = f"get_{args.split}_json"
     cross_domain = args.split == "train"
+    print(func_name)
     
-    for question_json in tqdm(getattr(data, func_name)()):
+    for question_json in tqdm(getattr(data, func_name)()): # func_name = get_train_json or get_test_json
         
         question_format = prompt.format(target=question_json,
                                         max_seq_len=args.max_seq_len,

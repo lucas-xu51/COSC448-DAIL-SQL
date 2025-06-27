@@ -1,0 +1,278 @@
+{
+  "db_id": "aan_1",
+  "schema": null,
+  "tables": {
+    "main.customer": {
+      "fields": {
+        "cid": {
+          "type": "INTEGER",
+          "primary_key": true,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]
+        },
+        "cname": {
+          "type": "TEXT",
+          "primary_key": false,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "Fred Smith",
+            "Joe Smithsonian",
+            "Steve Stevenson",
+            "Russell Johnson",
+            "John Doe"
+          ]
+        },
+        "address": {
+          "type": "TEXT",
+          "primary_key": false,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "101 Evergreen Terrace",
+            "245 Straight Street",
+            "24 Michigan Ave.",
+            "1 Hollywood Drive",
+            "34 Dead End Lane"
+          ]
+        },
+        "city": {
+          "type": "TEXT",
+          "primary_key": false,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "Springfield",
+            "Iowa City",
+            "Chicago",
+            "Hollywood",
+            "Detroit"
+          ]
+        },
+        "state": {
+          "type": "TEXT",
+          "primary_key": false,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "IL",
+            "IA",
+            "CA",
+            "MI",
+            "NJ"
+          ]
+        }
+      },
+      "examples": [],
+      "comment": ""
+    },
+    "main.product": {
+      "fields": {
+        "pid": {
+          "type": "INTEGER",
+          "primary_key": true,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]
+        },
+        "pname": {
+          "type": "TEXT",
+          "primary_key": false,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "Swiss Chocolate",
+            "Wooden Chair",
+            "Teddy Bear",
+            "Chocolate Bar",
+            "Desk"
+          ]
+        },
+        "price": {
+          "type": "REAL",
+          "primary_key": false,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "32.99",
+            "99.99",
+            "12.99",
+            "5.95",
+            "250.99"
+          ]
+        },
+        "inventory": {
+          "type": "INTEGER",
+          "primary_key": false,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "40",
+            "12",
+            "100",
+            "44",
+            "83"
+          ]
+        }
+      },
+      "examples": [],
+      "comment": ""
+    },
+    "main.shipment": {
+      "fields": {
+        "sid": {
+          "type": "INTEGER",
+          "primary_key": true,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]
+        },
+        "cid": {
+          "type": "INTEGER",
+          "primary_key": false,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "15",
+            "2",
+            "3",
+            "4",
+            "6"
+          ]
+        },
+        "shipdate": {
+          "type": "TEXT",
+          "primary_key": false,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "2021-07-05 00:00:00",
+            "2021-07-12 00:00:00",
+            "2021-09-05 00:00:00",
+            "2022-07-13 00:00:00",
+            "2022-07-17 00:00:00"
+          ]
+        }
+      },
+      "examples": [],
+      "comment": ""
+    },
+    "main.shippedproduct": {
+      "fields": {
+        "sid": {
+          "type": "INTEGER",
+          "primary_key": true,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ]
+        },
+        "pid": {
+          "type": "INTEGER",
+          "primary_key": true,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "4",
+            "7",
+            "9",
+            "10",
+            "1"
+          ]
+        },
+        "amount": {
+          "type": "INTEGER",
+          "primary_key": false,
+          "nullable": true,
+          "default": null,
+          "autoincrement": false,
+          "comment": "",
+          "examples": [
+            "1",
+            "2",
+            "5",
+            "6",
+            "3"
+          ]
+        }
+      },
+      "examples": [],
+      "comment": ""
+    }
+  },
+  "foreign_keys": [
+    [
+      "main.shipment",
+      "cid",
+      "main",
+      "customer",
+      "cid"
+    ],
+    [
+      "main.shippedproduct",
+      "sid",
+      "main",
+      "shipment",
+      "sid"
+    ],
+    [
+      "main.shippedproduct",
+      "pid",
+      "main",
+      "product",
+      "pid"
+    ]
+  ]
+}

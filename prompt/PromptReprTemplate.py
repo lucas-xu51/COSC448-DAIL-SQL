@@ -1,5 +1,6 @@
 from utils.utils import get_sql_for_database
 import json
+import sqlite3
 
 
 class BasicPrompt(object):
@@ -18,24 +19,169 @@ class BasicPrompt(object):
 
 
 class SQLPrompt(BasicPrompt):
-    template_info =   "/* Given the following database schema: */\n" \
-                      "{}"
-    template_question =  "/* Answer the following: {} */"
+    template_info = "/* Given the following database schema: */\n{}"
+    template_question = "/* Answer the following: {} */"
 
     def format_question(self, example: dict):
-        sqls = get_sql_for_database(example["path_db"])
+        schema_str = build_filtered_schema(example)
+        # print(f"Schema for db_id {example['db_id']}:\n{schema_str}")
 
-        prompt_info = self.template_info.format("\n\n".join(sqls))
+        prompt_info = self.template_info.format(schema_str)
         prompt_extra_info = self.get_extra_info(example["db_id"])
         prompt_question = self.template_question.format(example["question"])
 
-        if prompt_extra_info is None or prompt_extra_info == "":
-            prompt_components = [prompt_info, prompt_question]
-        else:
-            prompt_components = [prompt_info, prompt_extra_info, prompt_question]
+        prompt_components = [prompt_info]
+        if prompt_extra_info:
+            prompt_components.append(prompt_extra_info)
+        prompt_components.append(prompt_question)
 
         prompt = "\n\n".join(prompt_components)
         return prompt
+    
+def build_filtered_schema(example):
+    tables = example.get("tables", [])
+    if not tables:
+        return "/* No table information found */"
+    column_to_table = {str(k): str(v) for k, v in example.get("column_to_table", {}).items()}
+    table_to_columns = {}
+    for col_idx, tab_idx in column_to_table.items():
+        if tab_idx != "None":
+            table_to_columns.setdefault(tab_idx, []).append(col_idx)
+
+    primary_keys = set()
+    for table in tables:
+        if 'table_info' in table and 'primary_key' in table['table_info']:
+            for pk in table['table_info']['primary_key']:
+                primary_keys.add(pk)
+
+    table_idx_set = set()
+    column_idx_set = set()
+    
+    sc_link = example.get("sc_link", {})
+    for key in sc_link.get("q_tab_match", {}):
+        try:
+            _, tab_idx = key.split(",")
+            table_idx_set.add(tab_idx)
+        except:
+            continue
+
+    for key in sc_link.get("q_col_match", {}):
+        try:
+            _, col_idx = key.split(",")
+            column_idx_set.add(col_idx)
+        except:
+            continue
+
+    use_all_columns = False
+    if table_idx_set:
+        schema_mode = "matched_table"
+    elif column_idx_set:
+        schema_mode = "matched_column"
+    else:
+        schema_mode = "full_schema"
+        use_all_columns = True
+        table_idx_set = set(str(i) for i in range(len(tables)))
+
+    if schema_mode == "matched_column":
+        for col_idx in column_idx_set:
+            tab_idx = column_to_table.get(col_idx)
+            if tab_idx:
+                table_idx_set.add(tab_idx)
+
+    schema_parts = []
+    for table_idx in sorted(table_idx_set, key=int):
+        if int(table_idx) >= len(tables):
+            continue
+
+        table = tables[int(table_idx)]
+        table_name = table.get("name", f"table_{table_idx}")
+        schema = table.get("schema", [])
+        if not schema:
+            continue
+
+        col_defs = []
+        pk_cols = []
+        
+        for col_pos, col_name in enumerate(schema):
+            col_idx = table_to_columns.get(str(table_idx), [])[col_pos] if col_pos < len(table_to_columns.get(str(table_idx), [])) else None
+
+            if schema_mode == "matched_column" and col_idx not in column_idx_set:
+                continue 
+            
+            col_type = "TEXT"
+            if any(x in col_name.lower() for x in ['id', 'num', 'count']):
+                col_type = "INTEGER"
+            elif 'date' in col_name.lower():
+                col_type = "DATE"
+
+            col_defs.append(f"    {col_name} {col_type}")
+            if col_name in primary_keys:
+                pk_cols.append(col_name)
+
+        if col_defs:
+            if pk_cols:
+                col_defs.append(f"    PRIMARY KEY ({', '.join(pk_cols)})")
+            schema_parts.append(f"CREATE TABLE {table_name} (\n" + ",\n".join(col_defs) + "\n)")
+
+    return "\n\n".join(schema_parts) if schema_parts else "/* No relevant tables/columns found */"
+
+class SQLPromptOptimized(SQLPrompt):
+    template_info = "/* Given the following database schema: */\n{}"
+    template_question = "/* Answer the following: {} */"
+
+    def format_question(self, example: dict):
+        schema_str = build_filtered_schema(example)
+
+        prompt_info = self.template_info.format(schema_str)
+        prompt_extra_info = self.get_extra_info(example["db_id"])
+        prompt_question = self.template_question.format(example["question"])
+
+        prompt_components = [prompt_info]
+        if prompt_extra_info:
+            prompt_components.append(prompt_extra_info)
+        prompt_components.append(prompt_question)
+
+        prompt = "\n\n".join(prompt_components)
+        return prompt
+    
+class SQLPromptWithExamples(SQLPrompt):
+    def __init__(self, *args, examples=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.examples = examples or {}
+
+    def format_question(self, example: dict):
+        sqls = get_sql_for_database(example["path_db"])
+        
+        example_lines = []
+        for table_sql in sqls:
+            first_line = table_sql.strip().split('\n')[0]
+            if not first_line.lower().startswith("create table"):
+                continue
+            table_name = first_line.split()[2].strip('(')
+            
+            lines = table_sql.strip().split('\n')[1:]
+            for line in lines:
+                line = line.strip().strip(',')
+                if not line or line.lower().startswith('primary key') or line.lower().startswith('foreign key'):
+                    continue
+                col_name = line.split()[0]
+                key = f"{table_name}.{col_name}"
+                if key in self.examples:
+                    example_str = ", ".join(map(str, self.examples[key]))
+                    example_lines.append(f"-- Example values for {key}: {example_str}")
+        
+        prompt_info = self.template_info.format("\n\n".join(sqls) + "\n\n" + "\n".join(example_lines))
+        prompt_extra_info = self.get_extra_info(example["db_id"])
+        prompt_question = self.template_question.format(example["question"])
+
+        prompt_components = [prompt_info]
+        if prompt_extra_info:
+            prompt_components.append(prompt_extra_info)
+        prompt_components.append(prompt_question)
+
+        return "\n\n".join(prompt_components)
+    
+
 
 
 class TextPrompt(BasicPrompt):
