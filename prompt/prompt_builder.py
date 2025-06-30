@@ -10,6 +10,8 @@ from prompt.PromptICLTemplate import BasicICLPrompt
 def get_repr_cls(repr_type: str):
     if repr_type == REPR_TYPE.CODE_REPRESENTATION:
         repr_cls = SQLPrompt
+    elif repr_type == REPR_TYPE.CODE_REPRESENTATION_FILTER:
+        repr_cls = SQLFilteredPrompt
     elif repr_type == REPR_TYPE.TEXT_REPRESENTATION:
         repr_cls = TextPrompt
     elif repr_type == REPR_TYPE.OPENAI_DEMOSTRATION:

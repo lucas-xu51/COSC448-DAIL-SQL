@@ -5,6 +5,8 @@ import json
 import openai
 from tqdm import tqdm
 
+import time
+
 from llm.chatgpt import init_chatgpt, ask_llm
 from utils.enums import LLM
 from torch.utils.data import DataLoader
@@ -15,6 +17,9 @@ QUESTION_FILE = "questions.json"
 
 
 if __name__ == '__main__':
+
+    start_time = time.time()
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--question", type=str)
     parser.add_argument("--openai_api_key", type=str)
@@ -32,7 +37,7 @@ if __name__ == '__main__':
     parser.add_argument("--mini_index_path", type=str, default="")
     parser.add_argument("--batch_size", type=int, default=1)
     parser.add_argument("--n", type=int, default=5, help="Size of self-consistent set")
-    parser.add_argument("--db_dir", type=str, default="dataset/cosc304/database")
+    parser.add_argument("--db_dir", type=str, default="dataset/spider/database")
     args = parser.parse_args()
 
     # check args
@@ -112,3 +117,7 @@ if __name__ == '__main__':
                     for sql in final_sqls:
                         f.write(sql + "\n")
 
+    end_time = time.time()
+    total_time = end_time - start_time
+    print(f"\nTotal execution time: {total_time:.2f} seconds")
+    print(f"Average time per question: {total_time/len(questions):.2f} seconds")

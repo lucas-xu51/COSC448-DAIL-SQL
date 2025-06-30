@@ -166,6 +166,177 @@ def get_sql_for_database(path_db=None, cur=None):
 
     return [_[0][0] for _ in sqls]
 
+def get_filtered_schema(path_db=None, cur=None, example=None):
+    """Extract filtered schema with automatic inclusion of tables containing required columns"""
+    close_in_func = False
+    if cur is None:
+        con = sqlite3.connect(path_db)
+        cur = con.cursor()
+        close_in_func = True
+
+    # Step 1: Get all table names and build complete schema info
+    table_names = get_table_names(path_db, cur)
+    
+    # Step 2: Build column to table mapping from example
+    column_to_table = {}
+    for col_idx, table_idx in example.get("column_to_table", {}).items():
+        if table_idx is not None and str(table_idx).isdigit():
+            column_to_table[int(col_idx)] = int(table_idx)
+
+    # Step 3: Extract required tables and columns from example
+    sc_link = example.get("sc_link", {})
+    included_tables = set()
+    included_columns = set()
+
+    # Get explicitly mentioned tables
+    for key in sc_link.get("q_tab_match", {}):
+        try:
+            _, tab_idx = key.split(",")
+            included_tables.add(int(tab_idx))
+        except (ValueError, IndexError):
+            continue
+
+    # Get explicitly mentioned columns
+    for key in sc_link.get("q_col_match", {}):
+        try:
+            _, col_idx = key.split(",")
+            included_columns.add(int(col_idx))
+        except (ValueError, IndexError):
+            continue
+
+    # Step 4: Find tables containing required columns but not included
+    missing_tables = set()
+    for col_idx in included_columns:
+        if col_idx in column_to_table:
+            table_idx = column_to_table[col_idx]
+            if table_idx not in included_tables:
+                missing_tables.add(table_idx)
+
+    # Step 5: Add missing tables to included_tables
+    included_tables.update(missing_tables)
+
+    # If no tables specified, include all tables
+    if not included_tables:
+        included_tables = set(range(len(table_names)))
+
+    # Step 6: Find related tables through foreign keys
+    # First get all columns from the included tables
+    queries = []
+    for tab_idx in included_tables:
+        if tab_idx < len(table_names):
+            queries.append(f"PRAGMA table_info('{table_names[tab_idx]}')")
+    
+    # Execute all queries
+    execute_query(queries, path_db, cur)  # We don't need results here
+    
+    # Now find foreign key relations
+    fk_queries = []
+    for tab_idx in included_tables:
+        if tab_idx < len(table_names):
+            fk_queries.append(f"PRAGMA foreign_key_list('{table_names[tab_idx]}')")
+    
+    fk_results = execute_query(fk_queries, path_db, cur)
+    
+    # Add referenced tables to included_tables
+    for result in fk_results:
+        for row in result:
+            if len(row) >= 3:  # Ensure row has enough elements
+                ref_table = row[2]  # Referenced table name
+                if ref_table in table_names:
+                    referenced_idx = table_names.index(ref_table)
+                    included_tables.add(referenced_idx)
+
+    # Step 7: Get CREATE statements for all included tables
+    queries = []
+    for tab_idx in included_tables:
+        if tab_idx < len(table_names):
+            queries.append(f"SELECT sql FROM sqlite_master WHERE tbl_name='{table_names[tab_idx]}'")
+    
+    sqls = execute_query(queries, path_db, cur)
+
+    print(f"Included tables: {included_tables}")
+
+    if close_in_func:
+        cur.close()
+
+    # Filter out None or empty results
+    return [result[0][0] for result in sqls if result and result[0]]
+
+# def get_filtered_schema(path_db=None, cur=None, example=None):
+    # """extract the filtered schema from the database based on the example provided"""
+    # close_in_func = False
+    # if cur is None:
+    #     con = sqlite3.connect(path_db)
+    #     cur = con.cursor()
+    #     close_in_func = True
+
+    # # Get all table names
+    # table_names = get_table_names(path_db, cur)
+
+    # # Extract the tables and columns to include from the example
+    # sc_link = example.get("sc_link", {})
+    # included_tables = set()
+    # included_columns = set()
+
+
+    # # Extract the table indices to include
+    # for key in sc_link.get("q_tab_match", {}):
+    #     _, tab_idx = key.split(",")
+    #     included_tables.add(int(tab_idx))
+
+    # # Extract the column indices to include
+    # for key in sc_link.get("q_col_match", {}):
+    #     _, col_idx = key.split(",")
+    #     included_columns.add(int(col_idx))
+
+    # # If no tables are specified, include all tables
+    # if not included_tables:
+    #     included_tables = set(range(len(table_names)))
+
+    # # Get the complete CREATE statements for each included table
+    # queries = []
+    # for tab_idx in included_tables:
+    #     if tab_idx < len(table_names):
+    #         queries.append(f"SELECT sql FROM sqlite_master WHERE tbl_name='{table_names[tab_idx]}'")
+    
+    # sqls = execute_query(queries, path_db, cur)
+
+    # # print(sqls)
+    # return [_[0][0] for _ in sqls]
+
+
+# def parse_create_statement(create_stmt):
+#     start = create_stmt.find("(")
+#     end = create_stmt.rfind(")")
+#     if start == -1 or end == -1:
+#         return {}
+    
+#     content = create_stmt[start+1:end].strip()
+#     column_defs = []
+#     current = ""
+#     paren_level = 0
+#     for c in content:
+#         if c == '(':
+#             paren_level += 1
+#         elif c == ')':
+#             paren_level -= 1
+#         if c == ',' and paren_level == 0:
+#             column_defs.append(current.strip())
+#             current = ""
+#         else:
+#             current += c
+#     if current:
+#         column_defs.append(current.strip())
+    
+#     return {i: col for i, col in enumerate(column_defs)}
+
+# def get_global_column_index(example, table_idx, column_idx):
+#     table_to_columns = example.get("table_to_columns", {})
+#     columns_for_table = table_to_columns.get(str(table_idx), [])
+#     if column_idx < len(columns_for_table):
+#         return int(columns_for_table[column_idx])
+#     return -1
+
 
 def get_tokenizer(tokenizer_type: str):
     return 0
