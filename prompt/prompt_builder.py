@@ -12,6 +12,8 @@ def get_repr_cls(repr_type: str):
         repr_cls = SQLPrompt
     elif repr_type == REPR_TYPE.CODE_REPRESENTATION_FILTER:
         repr_cls = SQLFilteredPrompt
+    elif repr_type == REPR_TYPE.CODE_REPRESENTATION_FILTER_EXAMPLE:
+        repr_cls = SQLFilteredExamplePrompt
     elif repr_type == REPR_TYPE.TEXT_REPRESENTATION:
         repr_cls = TextPrompt
     elif repr_type == REPR_TYPE.OPENAI_DEMOSTRATION:

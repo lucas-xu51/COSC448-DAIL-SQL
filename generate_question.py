@@ -24,6 +24,7 @@ if __name__ == '__main__':
     parser.add_argument("--k_shot", type=int, default=0, help="Number of examples")
     parser.add_argument("--prompt_repr", type=str, choices=[REPR_TYPE.CODE_REPRESENTATION,
                                                             REPR_TYPE.CODE_REPRESENTATION_FILTER,
+                                                            REPR_TYPE.CODE_REPRESENTATION_FILTER_EXAMPLE,
                                                             REPR_TYPE.TEXT_REPRESENTATION,
                                                             REPR_TYPE.OPENAI_DEMOSTRATION,
                                                             REPR_TYPE.BASIC,

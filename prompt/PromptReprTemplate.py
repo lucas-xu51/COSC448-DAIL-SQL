@@ -1,4 +1,4 @@
-from utils.utils import get_filtered_schema, get_sql_for_database
+from utils.utils import get_filtered_schema, get_sql_for_database, get_filtered_schema_with_examples
 import json
 import sqlite3
 
@@ -58,6 +58,25 @@ class SQLFilteredPrompt(BasicPrompt):
         prompt = "\n\n".join(prompt_components)
         return prompt
 
+class SQLFilteredExamplePrompt(BasicPrompt):
+    template_info = "/* Given the following database schema: */\n{}"
+    template_question = "/* Answer the following: {} */"
+
+    def format_question(self, example: dict):
+        sqls = get_filtered_schema_with_examples(path_db=example["path_db"], example=example)
+        # print(sqls)
+
+        prompt_info = self.template_info.format("\n\n".join(sqls))
+        prompt_extra_info = self.get_extra_info(example["db_id"])
+        prompt_question = self.template_question.format(example["question"])
+
+        if prompt_extra_info is None or prompt_extra_info == "":
+            prompt_components = [prompt_info, prompt_question]
+        else:
+            prompt_components = [prompt_info, prompt_extra_info, prompt_question]
+
+        prompt = "\n\n".join(prompt_components)
+        return prompt
     
 # def build_filtered_schema(example):
 #     tables = example.get("tables", [])

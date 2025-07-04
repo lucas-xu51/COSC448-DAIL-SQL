@@ -262,6 +262,132 @@ def get_filtered_schema(path_db=None, cur=None, example=None):
     # Filter out None or empty results
     return [result[0][0] for result in sqls if result and result[0]]
 
+def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
+    """Extract filtered schema with automatic inclusion of tables containing required columns"""
+    close_in_func = False
+    if cur is None:
+        con = sqlite3.connect(path_db)
+        cur = con.cursor()
+        close_in_func = True
+
+    table_names = get_table_names(path_db, cur)
+    column_to_table = {}
+    for col_idx, table_idx in example.get("column_to_table", {}).items():
+        if table_idx is not None and str(table_idx).isdigit():
+            column_to_table[int(col_idx)] = int(table_idx)
+    sc_link = example.get("sc_link", {})
+    included_tables = set()
+    included_columns = set()
+    for key in sc_link.get("q_tab_match", {}):
+        try:
+            _, tab_idx = key.split(",")
+            included_tables.add(int(tab_idx))
+        except (ValueError, IndexError):
+            continue
+    for key in sc_link.get("q_col_match", {}):
+        try:
+            _, col_idx = key.split(",")
+            included_columns.add(int(col_idx))
+        except (ValueError, IndexError):
+            continue
+    missing_tables = set()
+    for col_idx in included_columns:
+        if col_idx in column_to_table:
+            table_idx = column_to_table[col_idx]
+            if table_idx not in included_tables:
+                missing_tables.add(table_idx)
+    included_tables.update(missing_tables)
+    if not included_tables:
+        included_tables = set(range(len(table_names)))
+    queries = []
+    for tab_idx in included_tables:
+        if tab_idx < len(table_names):
+            queries.append(f"PRAGMA table_info('{table_names[tab_idx]}')")
+    execute_query(queries, path_db, cur)
+    fk_queries = []
+    for tab_idx in included_tables:
+        if tab_idx < len(table_names):
+            fk_queries.append(f"PRAGMA foreign_key_list('{table_names[tab_idx]}')")
+    fk_results = execute_query(fk_queries, path_db, cur)
+    for result in fk_results:
+        for row in result:
+            if len(row) >= 3:  # Ensure row has enough elements
+                ref_table = row[2]  # Referenced table name
+                if ref_table in table_names:
+                    referenced_idx = table_names.index(ref_table)
+                    included_tables.add(referenced_idx)
+
+    # Step 7: Get CREATE statements and sample data for all included tables
+    final_schemas = []
+    for tab_idx in included_tables:
+        if tab_idx >= len(table_names):
+            continue
+            
+        table_name = table_names[tab_idx]
+        
+        # Get CREATE statement
+        cur.execute(f"SELECT sql FROM sqlite_master WHERE tbl_name='{table_name}'")
+        create_stmt = cur.fetchone()
+        if not create_stmt or not create_stmt[0]:
+            continue
+            
+        # Get column info
+        cur.execute(f"PRAGMA table_info('{table_name}')")
+        columns = cur.fetchall()
+        
+        # Get sample data only for string-type columns
+        column_examples = {}
+        for col in columns:
+            col_name = col[1]
+            col_type = col[2].upper() if col[2] else ""
+            
+            # Only process string-type columns
+            if any(s_type in col_type for s_type in ['TEXT', 'VARCHAR', 'CHAR', 'STRING']):
+                try:
+                    cur.execute(f"SELECT {col_name} FROM {table_name} WHERE {col_name} IS NOT NULL LIMIT 1")
+                    samples = [row[0] for row in cur.fetchall() if row[0] is not None]
+                    
+                    # Format string values with quotes, others as-is
+                    formatted_samples = []
+                    for sample in samples:
+                        if isinstance(sample, str):
+                            # Escape quotes in the string
+                            escaped = sample.replace('"', '\\"')
+                            formatted_samples.append(f'"{escaped}"')
+                        else:
+                            formatted_samples.append(str(sample))
+                    
+                    if formatted_samples:
+                        column_examples[col_name] = formatted_samples
+                except Exception as e:
+                    print(f"Error getting examples for {table_name}.{col_name}: {str(e)}")
+                    continue
+        
+        # Modify CREATE statement to include examples
+        modified_stmt = create_stmt[0]
+        for col in columns:
+            col_name = col[1]
+            if col_name in column_examples:
+                example_str = ", ".join(column_examples[col_name])
+                comment = f"  # e.g.: {example_str}"
+                
+                # Find the column definition in CREATE statement
+                # More robust replacement to avoid partial matches
+                col_def_pattern = re.compile(rf"\b{re.escape(col_name)}\s+[^,\n)]+")
+                modified_stmt = col_def_pattern.sub(
+                    lambda m: m.group() + comment, 
+                    modified_stmt
+                )
+        
+        final_schemas.append(modified_stmt)
+    
+    if close_in_func:
+        cur.close()
+        con.close()
+    
+    return final_schemas
+
+
 # def get_filtered_schema(path_db=None, cur=None, example=None):
     # """extract the filtered schema from the database based on the example provided"""
     # close_in_func = False
