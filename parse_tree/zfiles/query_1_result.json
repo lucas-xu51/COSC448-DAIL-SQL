@@ -1,0 +1,2312 @@
+{
+  "original_question": "What are the ids of the students who attended courses in the statistics department in order of attendance date.",
+  "mapped_nodes": [
+    {
+      "label": "id",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "candidate",
+          "element_type": "table",
+          "similarity": 0.5333333333333333,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "middle.name",
+          "element_type": "column",
+          "similarity": 0.4690909090909091,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate assessment",
+          "element_type": "table",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.1",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.2",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "zip.postcode",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "email.address",
+          "element_type": "column",
+          "similarity": 0.45230769230769236,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.to",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people address",
+          "element_type": "table",
+          "similarity": 0.4428571428571429,
+          "mapped_values": []
+        },
+        {
+          "element_name": "password",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.detail",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.address.id",
+          "element_type": "column",
+          "similarity": 0.4305882352941177,
+          "mapped_values": []
+        },
+        {
+          "element_name": "registration.date",
+          "element_type": "column",
+          "similarity": 0.4305882352941177,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.from",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course attendance",
+          "element_type": "table",
+          "similarity": 0.42400000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course registration",
+          "element_type": "table",
+          "similarity": 0.4222222222222222,
+          "mapped_values": []
+        },
+        {
+          "element_name": "first.name",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "login.name",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "other.detail",
+          "element_type": "column",
+          "similarity": 0.41000000000000003,
+          "mapped_values": []
+        },
+        {
+          "element_name": "qualification",
+          "element_type": "column",
+          "similarity": 0.4061538461538462,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.detail",
+          "element_type": "column",
+          "similarity": 0.4028571428571429,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people",
+          "element_type": "table",
+          "similarity": 0.4,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course",
+          "element_type": "table",
+          "similarity": 0.4,
+          "mapped_values": []
+        },
+        {
+          "element_name": "assessment.date",
+          "element_type": "column",
+          "similarity": 0.4,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cell.mobile.number",
+          "element_type": "column",
+          "similarity": 0.39333333333333337,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.description",
+          "element_type": "column",
+          "similarity": 0.39333333333333337,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.of.attendance",
+          "element_type": "column",
+          "similarity": 0.39333333333333337,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state.province.county",
+          "element_type": "column",
+          "similarity": 0.3885714285714286,
+          "mapped_values": []
+        },
+        {
+          "element_name": "asessment.outcome.code",
+          "element_type": "column",
+          "similarity": 0.3872727272727273,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "last.name",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.name",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "student",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "student",
+          "element_type": "table",
+          "similarity": 1.0,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.78,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.78,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.78,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.detail",
+          "element_type": "column",
+          "similarity": 0.66,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.6171428571428572,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.to",
+          "element_type": "column",
+          "similarity": 0.6171428571428572,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course attendance",
+          "element_type": "table",
+          "similarity": 0.5680000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "zip.postcode",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "last.name",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "other.detail",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course registration",
+          "element_type": "table",
+          "similarity": 0.5555555555555556,
+          "mapped_values": []
+        },
+        {
+          "element_name": "first.name",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate",
+          "element_type": "table",
+          "similarity": 0.5333333333333333,
+          "mapped_values": []
+        },
+        {
+          "element_name": "middle.name",
+          "element_type": "column",
+          "similarity": 0.5236363636363637,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.name",
+          "element_type": "column",
+          "similarity": 0.5236363636363637,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate assessment",
+          "element_type": "table",
+          "similarity": 0.52,
+          "mapped_values": []
+        },
+        {
+          "element_name": "assessment.date",
+          "element_type": "column",
+          "similarity": 0.52,
+          "mapped_values": []
+        },
+        {
+          "element_name": "password",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.detail",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state.province.county",
+          "element_type": "column",
+          "similarity": 0.5028571428571429,
+          "mapped_values": []
+        },
+        {
+          "element_name": "registration.date",
+          "element_type": "column",
+          "similarity": 0.5011764705882353,
+          "mapped_values": []
+        },
+        {
+          "element_name": "asessment.outcome.code",
+          "element_type": "column",
+          "similarity": 0.4963636363636364,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.description",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.from",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people address",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.address.id",
+          "element_type": "column",
+          "similarity": 0.4658823529411765,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.of.attendance",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "email.address",
+          "element_type": "column",
+          "similarity": 0.45230769230769236,
+          "mapped_values": []
+        },
+        {
+          "element_name": "qualification",
+          "element_type": "column",
+          "similarity": 0.45230769230769236,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.1",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.2",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cell.mobile.number",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "login.name",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "course",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "course",
+          "element_type": "table",
+          "similarity": 1.0,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.76,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.76,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.76,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.7028571428571428,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.name",
+          "element_type": "column",
+          "similarity": 0.6872727272727273,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people",
+          "element_type": "table",
+          "similarity": 0.6,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.description",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course attendance",
+          "element_type": "table",
+          "similarity": 0.544,
+          "mapped_values": []
+        },
+        {
+          "element_name": "first.name",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course registration",
+          "element_type": "table",
+          "similarity": 0.5333333333333333,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate",
+          "element_type": "table",
+          "similarity": 0.5333333333333333,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people address",
+          "element_type": "table",
+          "similarity": 0.5285714285714286,
+          "mapped_values": []
+        },
+        {
+          "element_name": "zip.postcode",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "password",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "other.detail",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "last.name",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cell.mobile.number",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate assessment",
+          "element_type": "table",
+          "similarity": 0.49,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "login.name",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.address.id",
+          "element_type": "column",
+          "similarity": 0.4658823529411765,
+          "mapped_values": []
+        },
+        {
+          "element_name": "registration.date",
+          "element_type": "column",
+          "similarity": 0.4658823529411765,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.1",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.2",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "email.address",
+          "element_type": "column",
+          "similarity": 0.45230769230769236,
+          "mapped_values": []
+        },
+        {
+          "element_name": "qualification",
+          "element_type": "column",
+          "similarity": 0.45230769230769236,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state.province.county",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.detail",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.to",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "asessment.outcome.code",
+          "element_type": "column",
+          "similarity": 0.44181818181818183,
+          "mapped_values": []
+        },
+        {
+          "element_name": "assessment.date",
+          "element_type": "column",
+          "similarity": 0.44000000000000006,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.detail",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.from",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.of.attendance",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "middle.name",
+          "element_type": "column",
+          "similarity": 0.4145454545454546,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "department",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "date.to",
+          "element_type": "column",
+          "similarity": 0.66,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student",
+          "element_type": "table",
+          "similarity": 0.64,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate",
+          "element_type": "table",
+          "similarity": 0.64,
+          "mapped_values": []
+        },
+        {
+          "element_name": "middle.name",
+          "element_type": "column",
+          "similarity": 0.6327272727272728,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people address",
+          "element_type": "table",
+          "similarity": 0.6142857142857143,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate assessment",
+          "element_type": "table",
+          "similarity": 0.61,
+          "mapped_values": []
+        },
+        {
+          "element_name": "first.name",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "last.name",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.from",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "table",
+          "similarity": 0.5800000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people",
+          "element_type": "table",
+          "similarity": 0.5800000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.name",
+          "element_type": "column",
+          "similarity": 0.5781818181818182,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.detail",
+          "element_type": "column",
+          "similarity": 0.5742857142857143,
+          "mapped_values": []
+        },
+        {
+          "element_name": "other.detail",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.of.attendance",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "assessment.date",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.detail",
+          "element_type": "column",
+          "similarity": 0.5475000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "email.address",
+          "element_type": "column",
+          "similarity": 0.5446153846153847,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course attendance",
+          "element_type": "table",
+          "similarity": 0.544,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "login.name",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "password",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "registration.date",
+          "element_type": "column",
+          "similarity": 0.5364705882352941,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state.province.county",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.description",
+          "element_type": "column",
+          "similarity": 0.5266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course",
+          "element_type": "table",
+          "similarity": 0.52,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course registration",
+          "element_type": "table",
+          "similarity": 0.5111111111111111,
+          "mapped_values": []
+        },
+        {
+          "element_name": "zip.postcode",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.address.id",
+          "element_type": "column",
+          "similarity": 0.5011764705882353,
+          "mapped_values": []
+        },
+        {
+          "element_name": "qualification",
+          "element_type": "column",
+          "similarity": 0.4984615384615385,
+          "mapped_values": []
+        },
+        {
+          "element_name": "asessment.outcome.code",
+          "element_type": "column",
+          "similarity": 0.4963636363636364,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cell.mobile.number",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.1",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.2",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "statistics",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "table",
+          "similarity": 0.5800000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student",
+          "element_type": "table",
+          "similarity": 0.5800000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate",
+          "element_type": "table",
+          "similarity": 0.5800000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.detail",
+          "element_type": "column",
+          "similarity": 0.5742857142857143,
+          "mapped_values": []
+        },
+        {
+          "element_name": "registration.date",
+          "element_type": "column",
+          "similarity": 0.571764705882353,
+          "mapped_values": []
+        },
+        {
+          "element_name": "zip.postcode",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course registration",
+          "element_type": "table",
+          "similarity": 0.5555555555555556,
+          "mapped_values": []
+        },
+        {
+          "element_name": "email.address",
+          "element_type": "column",
+          "similarity": 0.5446153846153847,
+          "mapped_values": []
+        },
+        {
+          "element_name": "qualification",
+          "element_type": "column",
+          "similarity": 0.5446153846153847,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course attendance",
+          "element_type": "table",
+          "similarity": 0.544,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "first.name",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "last.name",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "password",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.to",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state.province.county",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people address",
+          "element_type": "table",
+          "similarity": 0.5285714285714286,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.of.attendance",
+          "element_type": "column",
+          "similarity": 0.5266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course",
+          "element_type": "table",
+          "similarity": 0.52,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate assessment",
+          "element_type": "table",
+          "similarity": 0.52,
+          "mapped_values": []
+        },
+        {
+          "element_name": "assessment.date",
+          "element_type": "column",
+          "similarity": 0.52,
+          "mapped_values": []
+        },
+        {
+          "element_name": "other.detail",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.detail",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.address.id",
+          "element_type": "column",
+          "similarity": 0.5011764705882353,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.description",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.from",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.name",
+          "element_type": "column",
+          "similarity": 0.4690909090909091,
+          "mapped_values": []
+        },
+        {
+          "element_name": "asessment.outcome.code",
+          "element_type": "column",
+          "similarity": 0.4690909090909091,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.1",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.2",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "login.name",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "middle.name",
+          "element_type": "column",
+          "similarity": 0.4145454545454546,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people",
+          "element_type": "table",
+          "similarity": 0.4,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cell.mobile.number",
+          "element_type": "column",
+          "similarity": 0.39333333333333337,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "order",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "course",
+          "element_type": "table",
+          "similarity": 0.7,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people",
+          "element_type": "table",
+          "similarity": 0.6,
+          "mapped_values": []
+        },
+        {
+          "element_name": "password",
+          "element_type": "column",
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "other.detail",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.from",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate",
+          "element_type": "table",
+          "similarity": 0.5333333333333333,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.to",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people address",
+          "element_type": "table",
+          "similarity": 0.5285714285714286,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.description",
+          "element_type": "column",
+          "similarity": 0.5266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.name",
+          "element_type": "column",
+          "similarity": 0.5236363636363637,
+          "mapped_values": []
+        },
+        {
+          "element_name": "zip.postcode",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course attendance",
+          "element_type": "table",
+          "similarity": 0.496,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course registration",
+          "element_type": "table",
+          "similarity": 0.48888888888888893,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "first.name",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "login.name",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "middle.name",
+          "element_type": "column",
+          "similarity": 0.4690909090909091,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.address.id",
+          "element_type": "column",
+          "similarity": 0.4658823529411765,
+          "mapped_values": []
+        },
+        {
+          "element_name": "registration.date",
+          "element_type": "column",
+          "similarity": 0.4658823529411765,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate assessment",
+          "element_type": "table",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.1",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.2",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cell.mobile.number",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.of.attendance",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "email.address",
+          "element_type": "column",
+          "similarity": 0.45230769230769236,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.detail",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "asessment.outcome.code",
+          "element_type": "column",
+          "similarity": 0.44181818181818183,
+          "mapped_values": []
+        },
+        {
+          "element_name": "assessment.date",
+          "element_type": "column",
+          "similarity": 0.44000000000000006,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.detail",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "last.name",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state.province.county",
+          "element_type": "column",
+          "similarity": 0.41714285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "qualification",
+          "element_type": "column",
+          "similarity": 0.4061538461538462,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "date",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "date.to",
+          "element_type": "column",
+          "similarity": 0.7028571428571428,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate",
+          "element_type": "table",
+          "similarity": 0.6666666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.from",
+          "element_type": "column",
+          "similarity": 0.6266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "last.name",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "middle.name",
+          "element_type": "column",
+          "similarity": 0.5236363636363637,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate assessment",
+          "element_type": "table",
+          "similarity": 0.52,
+          "mapped_values": []
+        },
+        {
+          "element_name": "assessment.date",
+          "element_type": "column",
+          "similarity": 0.52,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.detail",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "registration.date",
+          "element_type": "column",
+          "similarity": 0.5011764705882353,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people",
+          "element_type": "table",
+          "similarity": 0.5,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course",
+          "element_type": "table",
+          "similarity": 0.5,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course attendance",
+          "element_type": "table",
+          "similarity": 0.496,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.of.attendance",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.detail",
+          "element_type": "column",
+          "similarity": 0.4885714285714286,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people address",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "first.name",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "login.name",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.name",
+          "element_type": "column",
+          "similarity": 0.4690909090909091,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course registration",
+          "element_type": "table",
+          "similarity": 0.4666666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.1",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.2",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "zip.postcode",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "other.detail",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "email.address",
+          "element_type": "column",
+          "similarity": 0.45230769230769236,
+          "mapped_values": []
+        },
+        {
+          "element_name": "qualification",
+          "element_type": "column",
+          "similarity": 0.45230769230769236,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state.province.county",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "asessment.outcome.code",
+          "element_type": "column",
+          "similarity": 0.44181818181818183,
+          "mapped_values": []
+        },
+        {
+          "element_name": "password",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.address.id",
+          "element_type": "column",
+          "similarity": 0.4305882352941177,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.description",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cell.mobile.number",
+          "element_type": "column",
+          "similarity": 0.39333333333333337,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "attendance",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "candidate",
+          "element_type": "table",
+          "similarity": 0.7,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.of.attendance",
+          "element_type": "column",
+          "similarity": 0.6933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "last.name",
+          "element_type": "column",
+          "similarity": 0.66,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course attendance",
+          "element_type": "table",
+          "similarity": 0.64,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.6100000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.id",
+          "element_type": "column",
+          "similarity": 0.6100000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "first.name",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "assessment.date",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "table",
+          "similarity": 0.5800000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student",
+          "element_type": "table",
+          "similarity": 0.5800000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "middle.name",
+          "element_type": "column",
+          "similarity": 0.5781818181818182,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.name",
+          "element_type": "column",
+          "similarity": 0.5781818181818182,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student.detail",
+          "element_type": "column",
+          "similarity": 0.5742857142857143,
+          "mapped_values": []
+        },
+        {
+          "element_name": "registration.date",
+          "element_type": "column",
+          "similarity": 0.571764705882353,
+          "mapped_values": []
+        },
+        {
+          "element_name": "other.detail",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate assessment",
+          "element_type": "table",
+          "similarity": 0.55,
+          "mapped_values": []
+        },
+        {
+          "element_name": "candidate.detail",
+          "element_type": "column",
+          "similarity": 0.5475000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "login.name",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.id",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address.id",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.from",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "date.to",
+          "element_type": "column",
+          "similarity": 0.54,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state.province.county",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people address",
+          "element_type": "table",
+          "similarity": 0.5285714285714286,
+          "mapped_values": []
+        },
+        {
+          "element_name": "asessment.outcome.code",
+          "element_type": "column",
+          "similarity": 0.5236363636363637,
+          "mapped_values": []
+        },
+        {
+          "element_name": "people",
+          "element_type": "table",
+          "similarity": 0.52,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course",
+          "element_type": "table",
+          "similarity": 0.52,
+          "mapped_values": []
+        },
+        {
+          "element_name": "student course registration",
+          "element_type": "table",
+          "similarity": 0.5111111111111111,
+          "mapped_values": []
+        },
+        {
+          "element_name": "zip.postcode",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "person.address.id",
+          "element_type": "column",
+          "similarity": 0.5011764705882353,
+          "mapped_values": []
+        },
+        {
+          "element_name": "email.address",
+          "element_type": "column",
+          "similarity": 0.4984615384615385,
+          "mapped_values": []
+        },
+        {
+          "element_name": "qualification",
+          "element_type": "column",
+          "similarity": 0.4984615384615385,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.1",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "line.2",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "password",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cell.mobile.number",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "course.description",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        }
+      ]
+    }
+  ],
+  "entities": [],
+  "adjusted_trees_count": 1,
+  "nl_explanations": []
+}

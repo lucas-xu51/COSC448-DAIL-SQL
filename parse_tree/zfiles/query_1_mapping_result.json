@@ -1,0 +1,813 @@
+{
+  "original_question": "Find the name and location of the stadiums which some concerts happened in the years of both 2014 and 2015.",
+  "mapped_nodes": [
+    {
+      "label": "name",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "name",
+          "element_type": "column",
+          "similarity": 0.96,
+          "mapped_values": []
+        },
+        {
+          "element_name": "name",
+          "element_type": "column",
+          "similarity": 0.96,
+          "mapped_values": []
+        },
+        {
+          "element_name": "age",
+          "element_type": "column",
+          "similarity": 0.66,
+          "mapped_values": []
+        },
+        {
+          "element_name": "song.name",
+          "element_type": "column",
+          "similarity": 0.6266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "theme",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer",
+          "element_type": "table",
+          "similarity": 0.6,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.name",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "average",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "be.male",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "year",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer in concert",
+          "element_type": "table",
+          "similarity": 0.47058823529411764,
+          "mapped_values": []
+        },
+        {
+          "element_name": "song.release.year",
+          "element_type": "column",
+          "similarity": 0.4658823529411765,
+          "mapped_values": []
+        },
+        {
+          "element_name": "lowest",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "highest",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "location",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "capacity",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "location",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "location",
+          "element_type": "column",
+          "similarity": 0.96,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert",
+          "element_type": "table",
+          "similarity": 0.625,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.id",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "capacity",
+          "element_type": "column",
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "lowest",
+          "element_type": "column",
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.name",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium",
+          "element_type": "table",
+          "similarity": 0.55,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer",
+          "element_type": "table",
+          "similarity": 0.55,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer in concert",
+          "element_type": "table",
+          "similarity": 0.5058823529411764,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "song.name",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "name",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "highest",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "average",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "name",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "age",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "be.male",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "theme",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "year",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "song.release.year",
+          "element_type": "column",
+          "similarity": 0.4305882352941177,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "stadium",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "stadium",
+          "element_type": "table",
+          "similarity": 1.0,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium.id",
+          "element_type": "column",
+          "similarity": 0.78,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium.id",
+          "element_type": "column",
+          "similarity": 0.78,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "song.name",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "name",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "highest",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "lowest",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "name",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "theme",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "location",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "capacity",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.name",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer in concert",
+          "element_type": "table",
+          "similarity": 0.47058823529411764,
+          "mapped_values": []
+        },
+        {
+          "element_name": "average",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "age",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "be.male",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "year",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "song.release.year",
+          "element_type": "column",
+          "similarity": 0.4305882352941177,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "concert",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "concert",
+          "element_type": "table",
+          "similarity": 1.0,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.id",
+          "element_type": "column",
+          "similarity": 0.78,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.id",
+          "element_type": "column",
+          "similarity": 0.78,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.name",
+          "element_type": "column",
+          "similarity": 0.7100000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.7028571428571428,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer",
+          "element_type": "table",
+          "similarity": 0.6571428571428571,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer in concert",
+          "element_type": "table",
+          "similarity": 0.6470588235294118,
+          "mapped_values": []
+        },
+        {
+          "element_name": "lowest",
+          "element_type": "column",
+          "similarity": 0.6171428571428572,
+          "mapped_values": []
+        },
+        {
+          "element_name": "location",
+          "element_type": "column",
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "capacity",
+          "element_type": "column",
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "song.name",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer.id",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "name",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "highest",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "average",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "name",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "year",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "song.release.year",
+          "element_type": "column",
+          "similarity": 0.5011764705882353,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "age",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "be.male",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "theme",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium.id",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium.id",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "year",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "year",
+          "element_type": "column",
+          "similarity": 0.96,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer",
+          "element_type": "table",
+          "similarity": 0.6,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "average",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "be.male",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "name",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "name",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "age",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "song.release.year",
+          "element_type": "column",
+          "similarity": 0.5011764705882353,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer.id",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "theme",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.id",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "singer in concert",
+          "element_type": "table",
+          "similarity": 0.47058823529411764,
+          "mapped_values": []
+        },
+        {
+          "element_name": "lowest",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "concert.name",
+          "element_type": "column",
+          "similarity": 0.46,
+          "mapped_values": []
+        },
+        {
+          "element_name": "highest",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "country",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "location",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "capacity",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "song.name",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium.id",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "stadium.id",
+          "element_type": "column",
+          "similarity": 0.42000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "2014",
+      "token_type": "VTNUM",
+      "mapped_elements": [
+        {
+          "element_name": "VALUE:2014",
+          "element_type": "value",
+          "similarity": 0.44,
+          "mapped_values": [
+            "2014"
+          ]
+        }
+      ]
+    },
+    {
+      "label": "2015",
+      "token_type": "VTNUM",
+      "mapped_elements": [
+        {
+          "element_name": "VALUE:2015",
+          "element_type": "value",
+          "similarity": 0.44,
+          "mapped_values": [
+            "2015"
+          ]
+        }
+      ]
+    }
+  ]
+}
