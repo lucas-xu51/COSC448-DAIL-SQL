@@ -43,6 +43,7 @@ class SQLFilteredPrompt(BasicPrompt):
     template_question = "/* Answer the following: {} */"
 
     def format_question(self, example: dict):
+        # print(example)
         sqls = get_filtered_schema(path_db=example["path_db"], example=example)
         # print(sqls)
 

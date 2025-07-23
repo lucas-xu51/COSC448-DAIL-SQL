@@ -17,6 +17,7 @@ from utils.linking_utils.spider_match_utils import (
 @attr.s
 class PreprocessedSchema:
     column_names = attr.ib(factory=list)
+    original_column_names = attr.ib(factory=list) # add raw column name
     table_names = attr.ib(factory=list)
     table_bounds = attr.ib(factory=list)
     column_to_table = attr.ib(factory=dict)
@@ -63,6 +64,9 @@ def preprocess_schema_uncached(schema,
                     column.table.name, column.table.unsplit_name)
             column_name += ['<table-sep>'] + table_name
         r.column_names.append(column_name)
+
+        original_col_name = column.unsplit_name  
+        r.original_column_names.append(original_col_name)
 
         table_id = None if column.table is None else column.table.id
         r.column_to_table[str(i)] = table_id
@@ -168,6 +172,7 @@ class SpiderEncoderV2Preproc(abstract_preproc.AbstractPreproc):
             'sc_link': sc_link,
             'cv_link': cv_link,
             'columns': preproc_schema.column_names,
+            'original_columns': preproc_schema.original_column_names,
             'tables': preproc_schema.table_names,
             'table_bounds': preproc_schema.table_bounds,
             'column_to_table': preproc_schema.column_to_table,

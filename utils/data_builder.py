@@ -199,6 +199,7 @@ class BasicDataset(object):
                 datas[id]["column_to_table"] = linking_infos[id]["column_to_table"]
                 db_id = datas[id]["db_id"]
                 datas[id]["table_names_original"] = db_id_to_table_json[db_id]["table_names_original"]
+                datas[id]["column_names_original"] = linking_infos[id]["original_columns"]
             question_patterns = get_question_pattern_with_schema_linking(datas)
             for id in range(len(datas)):
                 datas[id]["question_pattern"] = question_patterns[id]
