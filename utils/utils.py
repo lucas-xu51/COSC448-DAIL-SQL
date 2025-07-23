@@ -449,8 +449,6 @@ def get_filtered_schema(path_db=None, cur=None, example=None):
 #     # Filter out None or empty results
 #     return [result[0][0] for result in sqls if result and result[0]]
 
-import re
-import sqlite3
 
 def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
     """提取过滤后的数据库模式，为保留的列添加示例数据（支持字符串、数字、日期类型）"""
@@ -576,7 +574,7 @@ def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
             
             # 查询非空示例（最多3个）
             try:
-                cur.execute(f"SELECT {col_name} FROM {table_name} WHERE {col_name} IS NOT NULL LIMIT 3")
+                cur.execute(f"SELECT {col_name} FROM {table_name} WHERE {col_name} IS NOT NULL LIMIT 2")
                 samples = [row[0] for row in cur.fetchall() if row[0] is not None]
                 if not samples:
                     continue
