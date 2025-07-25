@@ -169,6 +169,7 @@ def get_sql_for_database(path_db=None, cur=None):
 def get_filtered_schema(path_db=None, cur=None, example=None):
     """提取过滤后的数据库模式，仅保留相关表中的主键、外键和查询涉及的列"""
     close_in_func = False
+    # print(example)
 
     if cur is None:
         con = sqlite3.connect(path_db)

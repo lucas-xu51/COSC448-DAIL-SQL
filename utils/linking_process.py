@@ -65,7 +65,7 @@ def preprocess_schema_uncached(schema,
             column_name += ['<table-sep>'] + table_name
         r.column_names.append(column_name)
 
-        original_col_name = column.unsplit_name  
+        original_col_name = column.name  
         r.original_column_names.append(original_col_name)
 
         table_id = None if column.table is None else column.table.id
