@@ -249,6 +249,10 @@ def get_filtered_schema(path_db=None, cur=None, example=None):
         col_query = f"PRAGMA table_info('{table_name}')"
         col_result = execute_query([col_query], path_db, cur)[0]
         all_columns = [col[1] for col in col_result]  # 列名列表（索引1是列名）
+
+        # print(f"\n表 '{table_name}' 从数据库提取的列名:")
+        # for col in all_columns:
+        #     print(f"  - {col}")
         
         # 6.2 提取主键列（PRAGMA table_info中pk=1的列）
         primary_keys = [col[1] for col in col_result if col[5] == 1]  # 索引5是pk标记
@@ -279,11 +283,18 @@ def get_filtered_schema(path_db=None, cur=None, example=None):
                 col_name = example["column_names_original"][col_idx]
                 if col_name in ti["columns"]:  # 验证列存在性
                     related_cols.add(col_name)
+
+        # print(f"\n表 '{table_name}' 的相关列（预处理 vs 数据库）:")
+        # for col_idx in included_columns:
+        #     if column_to_table.get(col_idx) == tab_idx:
+        #         preprocessed_col = example["column_names_original"][col_idx]
+        #         db_col_exists = preprocessed_col in ti["columns"]
+        #         print(f"  预处理列名: '{preprocessed_col}' -> 数据库中存在: {db_col_exists}")
         
         # 7.2 合并“相关列 + 主键 + 外键”（去重）
         must_keep = related_cols.union(ti["pk"]).union(ti["fk"])
         keep_columns[tab_idx] = must_keep
-
+        
     # 步骤8：生成过滤后的CREATE语句（只保留必要的列和约束）
     filtered_sqls = []
     for tab_idx in included_tables:
@@ -332,14 +343,21 @@ def get_filtered_schema(path_db=None, cur=None, example=None):
         # 过滤列定义：只保留需保留的列
         filtered_parts = []
         for part in parts:
-            # 判断是否为列定义（格式：列名 类型 [约束]）
-            if ' ' in part and not part.strip().upper().startswith(('PRIMARY KEY', 'FOREIGN KEY', 'UNIQUE')):
-                col_name = part.split()[0].strip()  # 提取列名（第一个单词）
+            part_stripped = part.strip()
+            part_upper = part_stripped.upper()
+            # 判断是否为列定义（非约束）
+            is_column_def = not part_upper.startswith(('PRIMARY KEY', 'FOREIGN KEY', 'UNIQUE'))
+            if is_column_def and ' ' in part_stripped:
+                # 提取列名（处理带特殊字符的列名）
+                col_name = part_stripped.split()[0].strip().strip('`"')  # 移除引号/反引号
                 if col_name in must_keep:
                     filtered_parts.append(part)  # 保留需保留的列
             else:
-                # 保留约束（主键、外键等，需确保涉及的列已保留）
+                # 保留约束（即使涉及的列未被保留，避免破坏语法）
                 filtered_parts.append(part)
+        
+        # 打印过滤后的部分，验证是否包含必要列
+        # print(f"表 '{table_name}' 过滤后的列定义: {filtered_parts}")
         
         # 重构CREATE语句
         new_struct = ', '.join(filtered_parts)
