@@ -1,7 +1,7 @@
 import json
 from transformers import GPT2Tokenizer
 
-INPUT_JSON_FILE = "C:\\Users\\grizz\\OneDrive\\Desktop\\COSC448\\ideas\\model\\DAIL-SQL\\dataset\\process\\SPIDER-TEST_SQLFILTER_3-SHOT_EUCDISQUESTIONMASK_QA-EXAMPLE_CTX-200_ANS-4096\\questions.json"
+INPUT_JSON_FILE = "C:\\Users\\grizz\\OneDrive\\Desktop\\COSC448\\ideas\\model\\DAIL-SQL\\dataset\\process\\SPIDER-TEST_SQL_3-SHOT_EUCDISQUESTIONMASK_QA-EXAMPLE_CTX-200_ANS-4096\\questions.json"
 
 def count_real_tokens(input_file):
     try:

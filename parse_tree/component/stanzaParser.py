@@ -189,15 +189,14 @@ class StanfordNLParser:
         
         for conj in query.conjTable:
             gov_num, dep_num = map(int, conj.split())
-            # 修改：使用query.parse_tree而不是query.parseTree
             gov_node = query.parse_tree.search_node_by_order(gov_num)
             dep_node = query.parse_tree.search_node_by_order(dep_num)
             
             if not gov_node or not dep_node:
                 continue
-                
+            
             # 确定并列关系逻辑词
-            logic = ","  # 默认使用逗号
+            logic = ","
             prev_node = query.parse_tree.search_node_by_order(dep_node.wordOrder - 1)
             if prev_node:
                 logic = prev_node.label.lower()
@@ -205,26 +204,37 @@ class StanfordNLParser:
             # 设置并列关系标记
             if logic == "or":
                 dep_node.leftRel = "or"
-                # 更新同级节点的leftRel
-                for sibling in gov_node.parent.children:
-                    if sibling.leftRel == ",":
-                        sibling.leftRel = "or"
+                # 检查 gov_node.parent 是否存在，避免 None 错误
+                if gov_node.parent:
+                    for sibling in gov_node.parent.children:
+                        if sibling.leftRel == ",":
+                            sibling.leftRel = "or"
             elif logic in ("and", "but"):
                 dep_node.leftRel = "and"
-                # 更新同级节点的leftRel
-                for sibling in gov_node.parent.children:
-                    if sibling.leftRel == ",":
-                        sibling.leftRel = "and"
+                # 检查 gov_node.parent 是否存在
+                if gov_node.parent:
+                    for sibling in gov_node.parent.children:
+                        if sibling.leftRel == ",":
+                            sibling.leftRel = "and"
             else:
                 dep_node.leftRel = ","
             
-            # 调整树结构：将dep_node移到与gov_node同级
+            # 调整树结构：将 dep_node 移到与 gov_node 同级
+            # 先检查 dep_node 是否在 gov_node 的子节点中
             if dep_node in gov_node.children:
                 gov_node.children.remove(dep_node)
             
-            dep_node.parent = gov_node.parent
-            if dep_node not in dep_node.parent.children:
-                dep_node.parent.children.append(dep_node)
+            # 关键修复：确保父节点存在后再操作
+            if gov_node.parent is not None:
+                dep_node.parent = gov_node.parent
+                # 检查 dep_node 是否已在父节点的子列表中，避免重复添加
+                if dep_node not in dep_node.parent.children:
+                    dep_node.parent.children.append(dep_node)
+            else:
+                # 若 gov_node 是根节点（无父节点），直接将 dep_node 设为根节点的子节点
+                dep_node.parent = gov_node
+                if dep_node not in dep_node.parent.children:
+                    dep_node.parent.children.append(dep_node)
             
             # 继承关系类型
             dep_node.relationship = gov_node.relationship
