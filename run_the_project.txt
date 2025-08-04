@@ -4,6 +4,8 @@ spider: python data_preprocess.py
 bird: python data_preprocess.py --data_type bird --data_dir ./dataset/bird
 cosc304: python data_preprocess.py --data_dir "./dataset/cosc304" --data_type "cosc304"    
 
+python data_preprocess.py --data_dir ./dataset/cosc304 --data_type cosc304 --use_meaning --compress
+
 
 generate question:
 filter:
