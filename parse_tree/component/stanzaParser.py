@@ -1,35 +1,35 @@
 import stanza
 from typing import List, Dict, Optional, Tuple
-from .query import Query  # 从query.py导入Query类
+from .query import Query  # Import Query class from query.py
 
 class ParseTreeNode:
-    """句法分析树的节点"""
+    """Syntax parse tree node"""
     def __init__(self, label: str, word_order: int, pos: str, 
                  relationship: str, parent: Optional['ParseTreeNode'] = None):
-        self.label = label           # 节点对应的词文本
-        self.wordOrder = word_order  # 词在句子中的位置（从1开始）
-        self.pos = pos               # 词性标签
-        self.relationship = relationship  # 与父节点的依存关系
-        self.parent = parent         # 父节点引用
-        self.children = []           # 子节点列表
-        self.leftRel = None          # 并列关系标记
+        self.label = label           # Node text content
+        self.wordOrder = word_order  # Word position in sentence (1-based)
+        self.pos = pos               # Part-of-speech tag
+        self.relationship = relationship  # Dependency relation with parent node
+        self.parent = parent         # Reference to parent node
+        self.children = []           # List of child nodes
+        self.leftRel = None          # Coordination relation marker
 
     def __repr__(self) -> str:
         return f"Node({self.label}, pos={self.pos}, rel={self.relationship})"
 
 class ParseTree:
-    """句法分析树"""
+    """Syntax parse tree"""
     def __init__(self):
-        self.root = None  # 根节点
-        self.nodes = []   # 所有节点的列表
+        self.root = None  # Root node
+        self.nodes = []   # List of all nodes
 
     def build_node(self, node_info: Tuple[str, str, str, str, str]) -> bool:
-        """根据树表条目构建节点并添加到树中"""
+        """Build and add node to tree based on tree table entry"""
         dep_index, dep_value, pos, gov_index, relationship = node_info
         dep_index = int(dep_index)
         gov_index = int(gov_index)
         
-        # 创建新节点
+        # Create new node
         new_node = ParseTreeNode(
             label=dep_value,
             word_order=dep_index,
@@ -37,13 +37,13 @@ class ParseTree:
             relationship=relationship
         )
         
-        # 根节点处理
+        # Handle root node
         if gov_index == 0:
             self.root = new_node
             self.nodes.append(new_node)
             return True
         
-        # 查找父节点
+        # Find parent node
         parent_node = self.search_node_by_order(gov_index)
         if parent_node:
             new_node.parent = parent_node
@@ -51,17 +51,17 @@ class ParseTree:
             self.nodes.append(new_node)
             return True
         
-        return False  # 父节点未找到，稍后再试
+        return False  # Parent node not found, try again later
 
     def search_node_by_order(self, word_order: int) -> Optional[ParseTreeNode]:
-        """根据词序查找节点"""
+        """Search node by word order"""
         for node in self.nodes:
             if node.wordOrder == word_order:
                 return node
         return None
 
     def print_tree(self, node: Optional[ParseTreeNode] = None, level: int = 0):
-        """递归打印树结构（用于调试）"""
+        """Recursively print tree structure (for debugging)"""
         if node is None:
             node = self.root
         
@@ -73,102 +73,102 @@ class ParseTree:
             self.print_tree(child, level + 1)
 
     def delete_node(self, node: ParseTreeNode) -> None:
-        """从树中删除指定节点，并将其子节点连接到其父节点"""
+        """Remove specified node from tree and connect its children to parent"""
         if node not in self.nodes:
-            return  # 节点不在树中，直接返回
+            return  # Node not in tree, return directly
         
-        # 1. 将子节点连接到父节点
+        # 1. Connect children to parent
         if node.parent and node.children:
             for child in node.children:
                 child.parent = node.parent
                 if child not in node.parent.children:
                     node.parent.children.append(child)
         
-        # 2. 从父节点的子节点列表中移除
+        # 2. Remove from parent's children list
         if node.parent and node in node.parent.children:
             node.parent.children.remove(node)
         
-        # 3. 从节点列表中移除
+        # 3. Remove from nodes list
         self.nodes.remove(node)
         
-        # 4. 特殊处理：如果删除的是根节点，尝试寻找合适的新根
+        # 4. Special handling: if deleting root node, try to find new root
         if node == self.root:
-            # 选择第一个没有父节点的节点作为新根
+            # Select first node without parent as new root
             self.root = next((n for n in self.nodes if n.parent is None), None)
             if not self.root and self.nodes:
-                # 如果没有这样的节点，将第一个节点设为根，并将其父节点设为None
+                # If no such node, set first node as root with parent=None
                 self.root = self.nodes[0]
                 self.root.parent = None
 
 class StanfordNLParser:
-    """自然语言解析器，生成句法分析树"""
+    """Natural language parser that generates syntax parse trees"""
     def __init__(self):
-        # 初始化stanza解析器
+        # Initialize stanza parser
         self.nlp = stanza.Pipeline(
             lang='en', 
             processors='tokenize,pos,lemma,depparse',
-            tokenize_pretokenized=True  # 假设输入已经分词
+            tokenize_pretokenized=True  # Assume input is already tokenized
         )
 
     def parse(self, query: Query) -> None:
-        """解析查询并构建句法分析树"""
+        """Parse query and build syntax parse tree"""
         self._stanford_parse(query)
         self._build_tree(query)
         self._fix_conj(query)
 
     def _stanford_parse(self, query: Query) -> None:
-        """使用Stanford Parser进行句法分析"""
-        # 将分词结果转换为stanza可以处理的格式
+        """Perform syntax parsing using Stanford Parser"""
+        # Convert tokenized results to format processable by stanza
         doc = self.nlp([query.sentence["question_tokens"]])
         
-        # 处理依存句法分析结果
-        tree_table = []  # 存储树表条目
-        conj_table = []  # 存储并列关系
+        # Process dependency parsing results
+        tree_table = []  # Store tree table entries
+        conj_table = []  # Store coordination relations
         
-        # 假设只有一个句子
+        # Assume single sentence
         sentence = doc.sentences[0]
         
-        # 构建树表
+        # Build tree table
         for dep in sentence.dependencies:
-            # 依存关系格式: (governor, relation, dependent)
+            # Dependency format: (governor, relation, dependent)
             governor = dep[0]
             relation = dep[1]
             dependent = dep[2]
             
-            # 注意：stanza的索引从1开始，0表示根
+            # Note: stanza indices start at 1, 0 represents root
             dep_index = dependent.id
             dep_value = dependent.text
-            pos = dependent.xpos  # 使用XPOS (Penn Treebank标签)
+            pos = dependent.xpos  # Use XPOS (Penn Treebank tags)
             gov_index = governor.id
             
-            # 构建树表条目
+            # Build tree table entry
             tree_table_entry = (str(dep_index), dep_value, pos, str(gov_index), relation)
             tree_table.append(tree_table_entry)
             
-            # 处理并列关系
+            # Handle coordination relations
             if relation.startswith('conj'):
                 conj_entry = f"{gov_index} {dep_index}"
                 conj_table.append(conj_entry)
         
-        # 将结果存入query对象
+        # Store results in query object
         query.treeTable = tree_table
         query.conjTable = conj_table
 
     def _build_tree(self, query: Query) -> None:
-        """根据树表构建句法分析树"""
-        # 修改：使用query.parse_tree而不是query.parseTree
+        """Build syntax parse tree from tree table"""
+        # Modification: use query.parse_tree instead of query.parseTree
         query.parse_tree = ParseTree()
         
-        # 标记已处理的条目
+        # Mark processed entries
         done_list = [False] * len(query.treeTable)
         
-        # 首先处理根节点
+        # First process root node
         for i, entry in enumerate(query.treeTable):
-            if entry[3] == "0":  # 父节点是根(0)
+            if entry[3] == "0":  # Parent is root (0)
                 query.parse_tree.build_node(entry)
                 done_list[i] = True
         
-        # 循环处理剩余节点，直到所有节点都被处理
+        # Process remaining nodes until all are processed
         while not all(done_list):
             progress = False
             for i, entry in enumerate(query.treeTable):
@@ -178,12 +178,12 @@ class StanfordNLParser:
                         progress = True
                         break
             
-            # 如果某次循环没有处理任何节点，说明存在问题
+            # If no progress in loop, indicates issue
             if not progress:
                 break
 
     def _fix_conj(self, query: Query) -> None:
-        """修复并列关系，设置leftRel属性"""
+        """Fix coordination relations, set leftRel attribute"""
         if not query.conjTable:
             return
         
@@ -195,23 +195,23 @@ class StanfordNLParser:
             if not gov_node or not dep_node:
                 continue
             
-            # 确定并列关系逻辑词
+            # Determine coordination logic word
             logic = ","
             prev_node = query.parse_tree.search_node_by_order(dep_node.wordOrder - 1)
             if prev_node:
                 logic = prev_node.label.lower()
             
-            # 设置并列关系标记
+            # Set coordination relation marker
             if logic == "or":
                 dep_node.leftRel = "or"
-                # 检查 gov_node.parent 是否存在，避免 None 错误
+                # Check if gov_node.parent exists to avoid None error
                 if gov_node.parent:
                     for sibling in gov_node.parent.children:
                         if sibling.leftRel == ",":
                             sibling.leftRel = "or"
             elif logic in ("and", "but"):
                 dep_node.leftRel = "and"
-                # 检查 gov_node.parent 是否存在
+                # Check if gov_node.parent exists
                 if gov_node.parent:
                     for sibling in gov_node.parent.children:
                         if sibling.leftRel == ",":
@@ -219,57 +219,57 @@ class StanfordNLParser:
             else:
                 dep_node.leftRel = ","
             
-            # 调整树结构：将 dep_node 移到与 gov_node 同级
-            # 先检查 dep_node 是否在 gov_node 的子节点中
+            # Adjust tree structure: move dep_node to same level as gov_node
+            # First check if dep_node is among gov_node's children
             if dep_node in gov_node.children:
                 gov_node.children.remove(dep_node)
             
-            # 关键修复：确保父节点存在后再操作
+            # Critical fix: ensure parent exists before operation
             if gov_node.parent is not None:
                 dep_node.parent = gov_node.parent
-                # 检查 dep_node 是否已在父节点的子列表中，避免重复添加
+                # Check if dep_node already in parent's children to avoid duplicates
                 if dep_node not in dep_node.parent.children:
                     dep_node.parent.children.append(dep_node)
             else:
-                # 若 gov_node 是根节点（无父节点），直接将 dep_node 设为根节点的子节点
+                # If gov_node is root (no parent), make dep_node child of root
                 dep_node.parent = gov_node
                 if dep_node not in dep_node.parent.children:
                     dep_node.parent.children.append(dep_node)
             
-            # 继承关系类型
+            # Inherit relation type
             dep_node.relationship = gov_node.relationship
 
-# 示例使用
+# Example usage
 if __name__ == "__main__":
-    # 假设我们已经有一个Query对象
-    # 这里简单创建一个示例
-    from query import SchemaGraph  # 假设SchemaGraph在另一个文件中
+    # Assume we have a Query object
+    # Here's a simple example creation
+    from query import SchemaGraph  # Assume SchemaGraph is in another file
     
-    # 加载数据库模式信息（示例中使用空数据）
+    # Load database schema info (example with empty data)
     db_info = {
         "tables": [["stadium"], ["singer"], ["concert"], ["singer", "in", "concert"]],
-        "columns": [...]  # 省略完整列定义
+        "columns": [...]  # Omitting full column definition
     }
     schema_graph = SchemaGraph(db_info)
     
-    # 创建查询对象
+    # Create query object
     query = Query(
         raw_question="How many singers do we have?",
         question_tokens=["how", "many", "singer", "do", "we", "have", "?"],
         schema_graph=schema_graph
     )
     
-    # 初始化解析器并解析查询
+    # Initialize parser and parse query
     parser = StanfordNLParser()
     parser.parse(query)
     
-    # 打印解析树（调试用）
-    # 修改：使用query.parse_tree而不是query.parseTree
+    # Print parse tree (for debugging)
+    # Modification: use query.parse_tree instead of query.parseTree
     if query.parse_tree:
-        print("句法分析树结构:")
+        print("Syntax parse tree structure:")
         query.parse_tree.print_tree()
     
-    # 打印树表（调试用）
-    print("\n树表内容:")
+    # Print tree table (for debugging)
+    print("\nTree table contents:")
     for entry in query.treeTable:
         print(entry)

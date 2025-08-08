@@ -6,11 +6,11 @@ import string
 import math
 from collections import deque
 
-# 相似度计算函数（保留，但后续步骤不调用）
+# Similarity calculation functions (kept, but not called in later steps)
 class SimFunctions:
     @staticmethod
     def similarity(node: ParseTreeNode, mapped_element: 'MappedSchemaElement') -> float:
-        """计算节点与映射元素的相似度"""
+        """Calculate similarity between a node and a mapped element"""
         char_sim = SimFunctions.char_similarity(node.label, mapped_element.schema_element.name)
         pos_sim = SimFunctions.pos_similarity(node.pos, mapped_element.schema_element)
         total_sim = (char_sim * 0.6) + (pos_sim * 0.4)
@@ -52,7 +52,7 @@ class SimFunctions:
             return word[:-1]
         return word
 
-# 映射的模式元素类（保留，但后续步骤不调用）
+# Mapped schema element class (kept, but not called in later steps)
 class MappedSchemaElement:
     def __init__(self, schema_element: SchemaElement):
         self.schema_element = schema_element
@@ -70,59 +70,58 @@ class MappedSchemaElement:
 class NodeMapper:
     @staticmethod
     def phrase_process(query: Query, tokens_path: str) -> List[Tuple[str, int]]:
-        """短语映射流程：返回（剩余词汇, 原始位置id）列表"""
+        """Phrase mapping process: returns a list of (remaining word, original position id)"""
         parse_tree = query.parse_tree
         if not parse_tree or not parse_tree.root:
-            print("解析树为空，无法处理")
+            print("Parse tree is empty, cannot process")
             return []
 
         try:
             tokens_tree = ET.parse(tokens_path)
             tokens_root = tokens_tree.getroot()
         except Exception as e:
-            print(f"加载tokens文件失败: {e}")
+            print(f"Failed to load tokens file: {e}")
             return []
 
         NodeMapper.tokenize(query, tokens_root)
-        remaining_nodes = NodeMapper.delete_useless(query)  # 格式：[(词汇, 原始位置id), ...]
+        remaining_nodes = NodeMapper.delete_useless(query)  # Format: [(word, original position id), ...]
         
-        return remaining_nodes  # 返回结果
-        
+        return remaining_nodes  # Return the result
         
     
     @staticmethod
     def tokenize(query: Query, tokens_root: ET.Element) -> None:
-        """节点类型标注（步骤1）"""
+        """Node type annotation (Step 1)"""
         parse_tree = query.parse_tree
         if not parse_tree or not parse_tree.root:
             return
             
-        # 标记根节点
+        # Mark root node
         parse_tree.root.token_type = "ROOT"
         
-        # 标记核心动词(CMT)
+        # Mark core verb (CMT)
         cmt_count = 0
         for child in parse_tree.root.children:
             if NodeMapper.is_of_type(tokens_root, parse_tree, child, "CMT", None):
                 child.token_type = "CMT"
                 cmt_count += 1
         
-        # 标记否定词(NEG)
+        # Mark negation words (NEG)
         neg_count = 0
         for node in parse_tree.nodes:
             if not hasattr(node, 'token_type') or node.token_type == "NA":
-                node.token_type = "NA"  # 初始化未识别类型
+                node.token_type = "NA"  # Initialize unrecognized type
                 
             if node.token_type == "NA" and NodeMapper.is_of_type(tokens_root, parse_tree, node, "NEG", None):
                 node.token_type = "NEG"
                 neg_count += 1
         
-        # 合并多词短语
+        # Merge multi-word expressions
         original_node_count = len(parse_tree.nodes)
         NodeMapper.merge_multi_word_expressions(parse_tree)
         merged_count = original_node_count - len(parse_tree.nodes)
         
-        # 其他类型标注
+        # Other type annotations
         current_size = 0
         type_counts = {"FT":0, "OT":0, "QT":0, "VT":0, "NTVT":0, "JJ":0, "NA":0}
         
@@ -130,27 +129,27 @@ class NodeMapper:
             current_size = len(parse_tree.nodes)
             for node in parse_tree.nodes[:]:
                 if node.token_type == "NA":
-                    # 函数节点(FT)
+                    # Function node (FT)
                     if NodeMapper.is_of_type(tokens_root, parse_tree, node, "FT", "function"):
                         node.token_type = "FT"
                         type_counts["FT"] += 1
-                    # 操作符节点(OT)
+                    # Operator node (OT)
                     elif NodeMapper.is_of_type(tokens_root, parse_tree, node, "OT", "operator"):
                         node.token_type = "OT"
                         type_counts["OT"] += 1
-                    # 数量词节点(QT)
+                    # Quantity node (QT)
                     elif NodeMapper.is_of_type(tokens_root, parse_tree, node, "QT", "quantity"):
                         node.token_type = "QT"
                         type_counts["QT"] += 1
-                    # 数值节点(VT)
+                    # Numeric value node (VT)
                     elif NodeMapper.is_numeric(node.label):
                         node.token_type = "VT"
                         type_counts["VT"] += 1
-                    # 名词性节点(NTVT)
+                    # Noun-type node (NTVT)
                     elif node.pos.startswith("NN") or node.pos == "CD":
                         node.token_type = "NTVT"
                         type_counts["NTVT"] += 1
-                    # 形容词节点(JJ)
+                    # Adjective node (JJ)
                     elif node.pos.startswith("JJ"):
                         node.token_type = "JJ"
                         type_counts["JJ"] += 1
@@ -159,7 +158,7 @@ class NodeMapper:
     
     @staticmethod
     def merge_multi_word_expressions(parse_tree: ParseTree) -> None:
-        """合并多词短语（步骤1中的子操作）"""
+        """Merge multi-word expressions (sub-operation in Step 1)"""
         for node in parse_tree.nodes[:]:
             if hasattr(node, 'relationship') and node.relationship == "mwe" and node.token_type == "NA":
                 original_parent_label = node.parent.label
@@ -171,31 +170,31 @@ class NodeMapper:
     
     @staticmethod
     def delete_useless(query: Query) -> List[Tuple[str, int]]:
-        """清理无关节点，返回(词汇, 原始位置)列表"""
+        """Remove irrelevant nodes and return a list of (word, original position)"""
         parse_tree = query.parse_tree
         if not parse_tree:
             return []
 
         original_node_count = len(parse_tree.nodes)
 
-        # 清理NA和QT类型节点
+        # Remove NA and QT type nodes
         deleted_nodes = []
         prepositions = []
         for node in parse_tree.nodes[:]:
             if hasattr(node, 'token_type') and (node.token_type == "NA" or node.token_type == "QT"):
                 if node.label.lower() in ["on", "in", "of", "by", "for", "with"]:
-                    prep_info = f"介词 {node.label} 信息已保存"
+                    prep_info = f"Preposition {node.label} information saved"
                     if node.children:
                         node.children[0].prep = node.label
-                        prep_info += f" 到子节点 {node.children[0].label}"
+                        prep_info += f" to child node {node.children[0].label}"
                     elif node.parent:
                         node.parent.prep = node.label
-                        prep_info += f" 到父节点 {node.parent.label}"
+                        prep_info += f" to parent node {node.parent.label}"
                     prepositions.append(prep_info)
                 deleted_nodes.append(node.label)
                 parse_tree.delete_node(node)
 
-        # 按原始位置排序清理后的节点，返回(词汇, 原始位置)
+        # Sort remaining nodes by original position and return (word, position)
         remaining_nodes = sorted(
             parse_tree.nodes,
             key=lambda x: x.wordOrder
@@ -205,7 +204,7 @@ class NodeMapper:
         return result
 
     
-    # 以下为后续步骤的方法，但不再被调用，可保留或删除
+    # The following methods are for later steps, but are no longer called; can be kept or removed
     @staticmethod
     def is_of_type(tokens_root: ET.Element, parse_tree: ParseTree, node: ParseTreeNode, token_type: str, tag: Optional[str]) -> bool:
         if NodeMapper._is_of_type(tokens_root, parse_tree, node, token_type, 1, tag):
@@ -249,7 +248,7 @@ class NodeMapper:
             return True
         return False
 
-# 为ParseTreeNode添加所需的属性和方法
+# Add required attributes and methods to ParseTreeNode
 def enhance_parse_tree_node():
     if not hasattr(ParseTreeNode, 'token_type'):
         ParseTreeNode.token_type = "NA"

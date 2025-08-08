@@ -3,42 +3,42 @@ from typing import List, Dict, Tuple, Optional
 
 
 class SchemaElement:
-    """数据库实体元素（表或字段）"""
+    """Database entity element (table or column)"""
     def __init__(self, element_id: int, name: str, element_type: str):
-        self.element_id = element_id  # 唯一标识（索引）
-        self.name = name  # 名称（如"singer"表、"singer.id"字段）
-        self.type = element_type  # 类型："table"或"column"
-        self.relation = None  # 所属表（仅字段有，指向表的SchemaElement）
-        self.attributes = []  # 表的字段列表（仅表有）
+        self.element_id = element_id  # Unique identifier (index)
+        self.name = name  # Name (e.g. "singer" table, "singer.id" column)
+        self.type = element_type  # Type: "table" or "column"
+        self.relation = None  # Parent table (only for columns, points to table SchemaElement)
+        self.attributes = []  # List of columns (only for tables)
 
     def __repr__(self):
         return f"{self.element_id}: {self.name} ({self.type})"
 
 
 class SchemaGraph:
-    """数据库schema图，包含实体、关联权重、最短路径"""
-    KeyEdge = 0.99  # 外键-主键表关联权重
-    AttEdge = 0.995  # 表-字段关联权重
+    """Database schema graph containing entities, relationship weights, and shortest paths"""
+    KeyEdge = 0.99  # Foreign key-primary key table relationship weight
+    AttEdge = 0.995  # Table-column relationship weight
 
     def __init__(self, db_info: Dict):
-        self.schema_elements: List[SchemaElement] = []  # 所有实体（表+字段）
-        self.weights: List[List[float]] = []  # 实体间关联权重矩阵
-        self.shortest_distance: List[List[float]] = []  # 最短路径权重矩阵
-        self.pre_element: List[List[int]] = []  # 路径前驱节点矩阵
+        self.schema_elements: List[SchemaElement] = []  # All entities (tables + columns)
+        self.weights: List[List[float]] = []  # Relationship weight matrix between entities
+        self.shortest_distance: List[List[float]] = []  # Shortest path weight matrix
+        self.pre_element: List[List[int]] = []  # Path predecessor matrix
 
-        # 构建schema_elements（表+字段）
+        # Build schema_elements (tables + columns)
         self._build_schema_elements(db_info)
-        # 初始化权重矩阵
+        # Initialize weight matrix
         self._init_weights(db_info)
-        # 计算最短路径（最强关联）
+        # Calculate shortest paths (strongest relationships)
         self._compute_shortest_distance()
 
     def _build_schema_elements(self, db_info: Dict):
-        """从db_info构建表和字段的实体"""
-        # 1. 添加表实体
+        """Build table and column entities from db_info"""
+        # 1. Add table entities
         tables = db_info["tables"]
         for table_idx, table_name_parts in enumerate(tables):
-            table_name = " ".join(table_name_parts)  # 表名（如"singer in concert"）
+            table_name = " ".join(table_name_parts)  # Table name (e.g. "singer in concert")
             table_element = SchemaElement(
                 element_id=len(self.schema_elements),
                 name=table_name,
@@ -46,92 +46,92 @@ class SchemaGraph:
             )
             self.schema_elements.append(table_element)
 
-        # 2. 添加字段实体（跳过index=0的"*"）
+        # 2. Add column entities (skip index=0 "*")
         columns = db_info["columns"]
         column_to_table = db_info["column_to_table"]
-        for col_idx in range(1, len(columns)):  # columns[0]是"*"，忽略
+        for col_idx in range(1, len(columns)):  # columns[0] is "*", skip
             col_meta = columns[col_idx]
-            col_name_parts = col_meta[1:]  # 字段名部分（如["singer", "id"]）
-            col_name = ".".join(col_name_parts)  # 字段名（如"singer.id"）
+            col_name_parts = col_meta[1:]  # Column name parts (e.g. ["singer", "id"])
+            col_name = ".".join(col_name_parts)  # Column name (e.g. "singer.id")
             
-            # 确定所属表（通过column_to_table映射）
+            # Determine parent table (via column_to_table mapping)
             table_idx = column_to_table[str(col_idx)]
-            table_element = self.schema_elements[table_idx]  # 表实体在schema_elements中的索引是table_idx
+            table_element = self.schema_elements[table_idx]  # Table entity index in schema_elements is table_idx
 
-            # 创建字段实体
+            # Create column entity
             col_element = SchemaElement(
                 element_id=len(self.schema_elements),
                 name=col_name,
                 element_type="column"
             )
-            col_element.relation = table_element  # 关联所属表
+            col_element.relation = table_element  # Link to parent table
             self.schema_elements.append(col_element)
 
-            # 将字段添加到表的attributes中
+            # Add column to table's attributes
             table_element.attributes.append(col_element)
 
     def _init_weights(self, db_info: Dict):
-        """初始化权重矩阵：表-字段关联、外键-主键表关联"""
+        """Initialize weight matrix: table-column relationships, foreign key-primary key table relationships"""
         num_elements = len(self.schema_elements)
         self.weights = [[0.0 for _ in range(num_elements)] for _ in range(num_elements)]
 
-        # 1. 表与字段的AttEdge关联（表 → 字段）
+        # 1. Table-column AttEdge relationships (table → column)
         for elem in self.schema_elements:
-            if elem.type == "table":  # 表实体
-                for col in elem.attributes:  # 表的字段
+            if elem.type == "table":  # Table entity
+                for col in elem.attributes:  # Table's columns
                     self.weights[elem.element_id][col.element_id] = self.AttEdge
 
-        # 2. 外键与主键表的KeyEdge关联（外键字段 → 主键表）
-        foreign_keys = db_info["foreign_keys"]  # {外键字段index: 主键字段index}
+        # 2. Foreign key-primary key table KeyEdge relationships (foreign key column → primary key table)
+        foreign_keys = db_info["foreign_keys"]  # {foreign key column index: primary key column index}
         column_to_table = db_info["column_to_table"]
         for fk_col_idx_str, pk_col_idx in foreign_keys.items():
             fk_col_idx = int(fk_col_idx_str)
-            # 外键字段实体ID计算：表数量 + (fk_col_idx - 1)（跳过columns[0]）
+            # Foreign key column entity ID calculation: number of tables + (fk_col_idx - 1) (skip columns[0])
             num_tables = len(db_info["tables"])
             fk_col_elem_id = num_tables + (fk_col_idx - 1)
             if fk_col_elem_id >= len(self.schema_elements):
-                continue  # 无效索引
+                continue  # Invalid index
             
-            # 主键字段所属的表（主键表）
-            pk_table_idx = column_to_table[str(pk_col_idx)]  # 主键字段的表索引
-            pk_table_elem = self.schema_elements[pk_table_idx]  # 主键表实体
+            # Primary key column's table (primary key table)
+            pk_table_idx = column_to_table[str(pk_col_idx)]  # Primary key column's table index
+            pk_table_elem = self.schema_elements[pk_table_idx]  # Primary key table entity
 
-            # 外键字段 → 主键表的权重设为KeyEdge
+            # Foreign key column → primary key table weight set to KeyEdge
             self.weights[fk_col_elem_id][pk_table_elem.element_id] = self.KeyEdge
 
     def _compute_shortest_distance(self):
-        """用Dijkstra算法计算最短路径（最强关联，权重乘积最大）"""
+        """Calculate shortest paths using Dijkstra's algorithm (strongest relationships, maximum weight product)"""
         num_elements = len(self.schema_elements)
         self.shortest_distance = [[0.0 for _ in range(num_elements)] for _ in range(num_elements)]
         self.pre_element = [[-1 for _ in range(num_elements)] for _ in range(num_elements)]
 
-        # 初始化距离矩阵（直接关联权重）
+        # Initialize distance matrix (direct relationship weights)
         for i in range(num_elements):
             for j in range(num_elements):
                 self.shortest_distance[i][j] = self.weights[i][j]
-            self.shortest_distance[i][i] = 1.0  # 自身到自身的权重为1
-            self.pre_element[i][i] = i  # 自身前驱是自己
+            self.shortest_distance[i][i] = 1.0  # Self-to-self weight is 1
+            self.pre_element[i][i] = i  # Self predecessor is self
 
-        # 对每个节点作为源点计算最短路径
+        # Calculate shortest paths for each node as source
         for source in range(num_elements):
             self._dijkstra(source)
 
     def _dijkstra(self, source: int):
-        """Dijkstra算法：计算从source到所有节点的最强关联路径"""
+        """Dijkstra's algorithm: calculate strongest relationship paths from source to all nodes"""
         num_elements = len(self.schema_elements)
-        local_dist = [0.0] * num_elements  # 源点到各节点的当前最大距离
-        dealt = [False] * num_elements  # 标记节点是否已处理
+        local_dist = [0.0] * num_elements  # Current maximum distance from source to each node
+        dealt = [False] * num_elements  # Mark whether node has been processed
 
-        # 初始化距离
+        # Initialize distances
         for i in range(num_elements):
             local_dist[i] = self.shortest_distance[source][i]
-            self.pre_element[source][i] = source  # 初始前驱为源点
+            self.pre_element[source][i] = source  # Initial predecessor is source
 
-        dealt[source] = True  # 源点已处理
+        dealt[source] = True  # Source is processed
 
-        # 迭代处理所有节点
+        # Iteratively process all nodes
         while not all(dealt):
-            # 找未处理节点中距离最大的节点
+            # Find unprocessed node with maximum distance
             max_dist = -1.0
             max_idx = -1
             for i in range(num_elements):
@@ -139,91 +139,91 @@ class SchemaGraph:
                     max_dist = local_dist[i]
                     max_idx = i
             if max_idx == -1:
-                break  # 所有可达节点已处理
+                break  # All reachable nodes processed
 
-            dealt[max_idx] = True  # 标记为已处理
+            dealt[max_idx] = True  # Mark as processed
 
-            # 更新通过max_idx的路径
+            # Update paths through max_idx
             for i in range(num_elements):
                 if not dealt[i]:
                     new_dist = local_dist[max_idx] * self.weights[max_idx][i]
                     if new_dist > local_dist[i]:
                         local_dist[i] = new_dist
-                        self.pre_element[source][i] = max_idx  # 更新前驱
+                        self.pre_element[source][i] = max_idx  # Update predecessor
 
-        # 更新源点的最短距离
+        # Update source's shortest distances
         for i in range(num_elements):
             self.shortest_distance[source][i] = local_dist[i]
 
-    # 新增：获取与指定实体相关联的所有实体
+    # New: Get all entities related to specified entity
     def get_related_elements(self, target_elem: SchemaElement) -> List[SchemaElement]:
         """
-        返回所有与target_elem相关联的实体（表或字段）
-        关联定义：最短路径权重 > 0 的实体（即存在有效关联）
+        Return all entities (tables or columns) related to target_elem
+        Relationship definition: entities with shortest path weight > 0 (i.e. valid relationship exists)
         """
         related = []
         if target_elem.element_id >= len(self.shortest_distance):
-            return related  # 无效的实体ID
+            return related  # Invalid entity ID
         
-        # 遍历所有实体，筛选出最短路径权重 > 0 的实体
+        # Iterate through all entities, filter those with shortest path weight > 0
         for elem in self.schema_elements:
             if elem.element_id == target_elem.element_id:
-                continue  # 排除自身
-            # 最短路径权重 > 0 表示存在关联
+                continue  # Exclude self
+            # Shortest path weight > 0 means relationship exists
             if self.shortest_distance[target_elem.element_id][elem.element_id] > 0:
                 related.append(elem)
         return related
 
     def print_all(self):
-        """打印SchemaGraph中的所有内容"""
-        print("\n===== Schema Graph 完整信息 =====")
+        """Print all contents of SchemaGraph"""
+        print("\n===== Schema Graph Complete Information =====")
         
-        # 1. 打印所有实体（表和字段）
-        print("\n1. 所有实体（表和字段）：")
+        # 1. Print all entities (tables and columns)
+        print("\n1. All entities (tables and columns):")
         for elem in self.schema_elements:
             if elem.type == "table":
-                print(f"表 {elem.element_id}: {elem.name}，包含字段：{[col.name for col in elem.attributes]}")
+                print(f"Table {elem.element_id}: {elem.name}, contains columns: {[col.name for col in elem.attributes]}")
             else:
-                print(f"字段 {elem.element_id}: {elem.name}，所属表：{elem.relation.name}")
+                print(f"Column {elem.element_id}: {elem.name}, belongs to table: {elem.relation.name}")
         
-        # 2. 打印权重矩阵（关键关联，过滤0值）
-        print("\n2. 实体间关联权重（非0值）：")
+        # 2. Print weight matrix (key relationships, filter 0 values)
+        print("\n2. Entity relationship weights (non-zero values):")
         for i in range(len(self.weights)):
             for j in range(len(self.weights[i])):
                 weight = self.weights[i][j]
                 if weight > 0:
                     src_elem = self.schema_elements[i]
                     dest_elem = self.schema_elements[j]
-                    print(f"实体 {i} ({src_elem.name}) → 实体 {j} ({dest_elem.name})：权重 = {weight}")
+                    print(f"Entity {i} ({src_elem.name}) → Entity {j} ({dest_elem.name}): weight = {weight}")
         
-        # 3. 打印最短路径（示例：选取前5个实体的关键路径）
-        print("\n3. 最短路径权重（示例，非0值）：")
-        sample_size = min(5, len(self.shortest_distance))  # 只打印前5个实体的路径
+        # 3. Print shortest paths (example: key paths for first 5 entities)
+        print("\n3. Shortest path weights (example, non-zero values):")
+        sample_size = min(5, len(self.shortest_distance))  # Only print paths for first 5 entities
         for i in range(sample_size):
             for j in range(len(self.shortest_distance[i])):
                 dist = self.shortest_distance[i][j]
-                if dist > 0 and i != j:  # 排除自身到自身
+                if dist > 0 and i != j:  # Exclude self-to-self
                     src_elem = self.schema_elements[i]
                     dest_elem = self.schema_elements[j]
-                    print(f"实体 {i} ({src_elem.name}) 到实体 {j} ({dest_elem.name})：最短路径权重 = {dist:.4f}")
+                    print(f"Entity {i} ({src_elem.name}) to Entity {j} ({dest_elem.name}): shortest path weight = {dist:.4f}")
 
 
 class Query:
-    """封装查询信息和schema图"""
+    """Encapsulates query information and schema graph"""
     def __init__(self, raw_question: str, question_tokens: List[str], schema_graph: SchemaGraph):
         self.sentence = {
             "raw_question": raw_question,
-            "question_tokens": question_tokens  # 分词结果
+            "question_tokens": question_tokens  # Tokenization results
         }
-        self.graph = schema_graph  # 关联的schema图
-        self.parse_tree = None  # 后续语法解析的树结构（预留）
-        self.mapped_elements = []  # 后续短语映射结果（预留）
-        self.entities = []  # 后续实体解析结果（预留）
-        self.translated_sql = None  # 最终生成的SQL（预留）
+        self.graph = schema_graph  # Associated schema graph
+        self.parse_tree = None  # Subsequent syntax parse tree structure (reserved)
+        self.mapped_elements = []  # Subsequent phrase mapping results (reserved)
+        self.entities = []  # Subsequent entity parsing results (reserved)
+        self.translated_sql = None  # Final generated SQL (reserved)
 
 
 def load_queries_from_jsonl(jsonl_path: str) -> List[Query]:
-    """从JSONL文件加载查询，构建Query对象"""
+    """Load queries from JSONL file and build Query objects"""
     queries = []
     with open(jsonl_path, "r", encoding="utf-8") as f:
         for line in f:
@@ -238,13 +238,13 @@ def load_queries_from_jsonl(jsonl_path: str) -> List[Query]:
     return queries
 
 
-# 示例使用：打印完整的SchemaGraph
+# Example usage: print complete SchemaGraph
 if __name__ == "__main__":
-    # 替换为你的JSONL文件路径
+    # Replace with your JSONL file path
     jsonl_path = "C:/Users/grizz/OneDrive/Desktop/COSC448/ideas/model/DAIL-SQL/parse_tree/zfiles/test.jsonl"
     queries = load_queries_from_jsonl(jsonl_path)
     
-    # 打印第一个查询的SchemaGraph完整信息
+    # Print first query's complete SchemaGraph information
     first_query = queries[0]
-    print("查询原始问题:", first_query.sentence["raw_question"])
-    first_query.graph.print_all()  # 调用新增的打印函数
+    print("Query raw question:", first_query.sentence["raw_question"])
+    first_query.graph.print_all()  # Call new print function

@@ -166,8 +166,9 @@ def get_sql_for_database(path_db=None, cur=None):
 
     return [_[0][0] for _ in sqls]
 
+# filter both tables & columns
 def get_filtered_schema(path_db=None, cur=None, example=None):
-    """提取过滤后的数据库模式，仅保留相关表中的主键、外键和查询涉及的列"""
+    """Extract a filtered database schema, keeping only primary keys, foreign keys, and columns involved in the query from relevant tables"""
     close_in_func = False
     # print(example)
 
@@ -176,91 +177,91 @@ def get_filtered_schema(path_db=None, cur=None, example=None):
         cur = con.cursor()
         close_in_func = True
 
-    # 步骤1：获取所有表名
+    # Step 1: Get all table names
     table_names = get_table_names(path_db, cur)
     
-    # 步骤2：构建“列索引→表索引”的映射（从示例中提取）
+    # Step 2: Build the mapping "column index → table index" (extracted from the example)
     column_to_table = {}
     for col_idx, table_idx in example.get("column_to_table", {}).items():
         if table_idx is not None and str(table_idx).isdigit():
             column_to_table[int(col_idx)] = int(table_idx)
 
-    # 步骤3：从示例中提取“明确提到的表”和“明确提到的列”
+    # Step 3: Extract explicitly mentioned tables and columns from the example
     sc_link = example.get("sc_link", {})
-    included_tables = set()  # 需要处理的表索引集合
-    included_columns = set()  # 需要处理的列索引集合
+    included_tables = set()  # Set of table indexes to process
+    included_columns = set()  # Set of column indexes to process
 
-    # 提取明确提到的表（来自q_tab_match）
+    # Extract explicitly mentioned tables (from q_tab_match)
     for key in sc_link.get("q_tab_match", {}):
         try:
-            _, tab_idx = key.split(",")  # 解析格式如"2,0"的键
+            _, tab_idx = key.split(",")  # Format like "2,0"
             included_tables.add(int(tab_idx))
         except (ValueError, IndexError):
             continue
 
-    # 提取明确提到的列（来自q_col_match）
+    # Extract explicitly mentioned columns (from q_col_match)
     for key in sc_link.get("q_col_match", {}):
         try:
-            _, col_idx = key.split(",")  # 解析格式如"x,y"的键
+            _, col_idx = key.split(",")  # Format like "x,y"
             included_columns.add(int(col_idx))
         except (ValueError, IndexError):
             continue
 
-    # 步骤4：补充“包含相关列但未被提及的表”
+    # Step 4: Add tables that contain related columns but were not explicitly mentioned
     missing_tables = set()
     for col_idx in included_columns:
         if col_idx in column_to_table:
-            table_idx = column_to_table[col_idx]  # 列所属的表
+            table_idx = column_to_table[col_idx]  # Table that the column belongs to
             if table_idx not in included_tables:
-                missing_tables.add(table_idx)  # 该表需被包含
+                missing_tables.add(table_idx)  # Include this table
 
     included_tables.update(missing_tables)
 
-    # 若未指定任何表，则包含所有表
+    # If no tables are specified, include all tables
     if not included_tables:
         included_tables = set(range(len(table_names)))
 
-    # 步骤5：通过外键关联补充相关表（确保关联完整性）
-    # 收集包含表的外键查询
+    # Step 5: Add related tables via foreign key relationships (to ensure referential integrity)
+    # Collect foreign key queries for included tables
     fk_queries = []
     for tab_idx in included_tables:
         if tab_idx < len(table_names):
             fk_queries.append(f"PRAGMA foreign_key_list('{table_names[tab_idx]}')")
     
-    fk_results = execute_query(fk_queries, path_db, cur)  # 执行外键查询
+    fk_results = execute_query(fk_queries, path_db, cur)  # Execute foreign key queries
     
-    # 补充外键关联的表
+    # Add referenced tables from foreign keys
     for result in fk_results:
         for row in result:
-            if len(row) >= 3:  # 确保外键信息完整
-                ref_table = row[2]  # 外键引用的表名
+            if len(row) >= 3:  # Ensure foreign key info is complete
+                ref_table = row[2]  # Referenced table name
                 if ref_table in table_names:
                     referenced_idx = table_names.index(ref_table)
-                    included_tables.add(referenced_idx)  # 加入关联表
+                    included_tables.add(referenced_idx)  # Add related table
 
-    # 步骤6：提取每个表的关键信息（所有列、主键、外键）
-    table_info = {}  # 存储每个表的详细信息：{表索引: {columns: [], pk: [], fk: []}}
+    # Step 6: Extract key information for each table (all columns, primary keys, foreign keys)
+    table_info = {}  # Store details for each table: {table index: {columns: [], pk: [], fk: []}}
     for tab_idx in included_tables:
         if tab_idx >= len(table_names):
             continue
         table_name = table_names[tab_idx]
         
-        # 6.1 获取表的所有列（通过PRAGMA table_info）
+        # 6.1 Get all columns of the table (via PRAGMA table_info)
         col_query = f"PRAGMA table_info('{table_name}')"
         col_result = execute_query([col_query], path_db, cur)[0]
-        all_columns = [col[1] for col in col_result]  # 列名列表（索引1是列名）
+        all_columns = [col[1] for col in col_result]  # Column name list (index 1 is column name)
 
-        # print(f"\n表 '{table_name}' 从数据库提取的列名:")
+        # print(f"\nTable '{table_name}' columns extracted from the database:")
         # for col in all_columns:
         #     print(f"  - {col}")
         
-        # 6.2 提取主键列（PRAGMA table_info中pk=1的列）
-        primary_keys = [col[1] for col in col_result if col[5] == 1]  # 索引5是pk标记
+        # 6.2 Extract primary key columns (pk=1 in PRAGMA table_info)
+        primary_keys = [col[1] for col in col_result if col[5] == 1]  # Index 5 is pk flag
         
-        # 6.3 提取外键列（通过PRAGMA foreign_key_list）
+        # 6.3 Extract foreign key columns (via PRAGMA foreign_key_list)
         fk_query = f"PRAGMA foreign_key_list('{table_name}')"
         fk_result = execute_query([fk_query], path_db, cur)[0]
-        foreign_keys = [row[3] for row in fk_result]  # 索引3是本地外键列名
+        foreign_keys = [row[3] for row in fk_result]  # Index 3 is local foreign key column name
         
         table_info[tab_idx] = {
             "columns": all_columns,
@@ -268,34 +269,34 @@ def get_filtered_schema(path_db=None, cur=None, example=None):
             "fk": foreign_keys
         }
 
-    # 步骤7：确定每个表需要保留的列（相关列 + 主键 + 外键）
-    keep_columns = {}  # {表索引: 需保留的列名集合}
+    # Step 7: Determine columns to keep for each table (related columns + primary keys + foreign keys)
+    keep_columns = {}  # {table index: set of column names to keep}
     for tab_idx in included_tables:
         if tab_idx not in table_info:
             continue
         ti = table_info[tab_idx]
         table_name = table_names[tab_idx]
         
-        # 7.1 提取该表的“相关列”（示例中明确提到的列）
+        # 7.1 Extract "related columns" for the table (explicitly mentioned in the example)
         related_cols = set()
         for col_idx in included_columns:
-            if column_to_table.get(col_idx) == tab_idx:  # 列属于当前表
+            if column_to_table.get(col_idx) == tab_idx:  # Column belongs to this table
                 col_name = example["column_names_original"][col_idx]
-                if col_name in ti["columns"]:  # 验证列存在性
+                if col_name in ti["columns"]:  # Validate existence in DB
                     related_cols.add(col_name)
 
-        # print(f"\n表 '{table_name}' 的相关列（预处理 vs 数据库）:")
+        # print(f"\nTable '{table_name}' related columns (preprocessed vs database):")
         # for col_idx in included_columns:
         #     if column_to_table.get(col_idx) == tab_idx:
         #         preprocessed_col = example["column_names_original"][col_idx]
         #         db_col_exists = preprocessed_col in ti["columns"]
-        #         print(f"  预处理列名: '{preprocessed_col}' -> 数据库中存在: {db_col_exists}")
+        #         print(f"  Preprocessed column: '{preprocessed_col}' -> Exists in DB: {db_col_exists}")
         
-        # 7.2 合并“相关列 + 主键 + 外键”（去重）
+        # 7.2 Merge related columns, primary keys, and foreign keys (remove duplicates)
         must_keep = related_cols.union(ti["pk"]).union(ti["fk"])
         keep_columns[tab_idx] = must_keep
         
-    # 步骤8：生成过滤后的CREATE语句（只保留必要的列和约束）
+    # Step 8: Generate filtered CREATE statements (keep only necessary columns and constraints)
     filtered_sqls = []
     for tab_idx in included_tables:
         if tab_idx >= len(table_names):
@@ -304,26 +305,26 @@ def get_filtered_schema(path_db=None, cur=None, example=None):
         ti = table_info[tab_idx]
         must_keep = keep_columns[tab_idx]
         
-        # 8.1 获取原CREATE语句
+        # 8.1 Get the original CREATE statement
         create_query = f"SELECT sql FROM sqlite_master WHERE tbl_name='{table_name}'"
         create_result = execute_query([create_query], path_db, cur)[0]
         if not create_result or not create_result[0][0]:
-            continue  # 跳过无CREATE语句的表
+            continue  # Skip if no CREATE statement
         original_create = create_result[0][0]
 
-        # 8.2 解析原CREATE语句，过滤列定义
-        # 示例原语句格式：CREATE TABLE customer (cid INT PRIMARY KEY, cname TEXT, ...)
-        # 提取括号内的内容（表结构部分）
+        # 8.2 Parse the original CREATE statement, filtering column definitions
+        # Example: CREATE TABLE customer (cid INT PRIMARY KEY, cname TEXT, ...)
+        # Extract the content inside parentheses (table structure part)
         start = original_create.find('(') + 1
         end = original_create.rfind(')')
         if start >= end:
-            filtered_sqls.append(original_create)  # 解析失败时保留原语句
+            filtered_sqls.append(original_create)  # If parsing fails, keep the original
             continue
         struct_part = original_create[start:end].strip()
         
-        # 拆分列定义和约束（按逗号分割，忽略约束中的逗号）
+        # Split column definitions and constraints (by comma, ignoring commas inside constraints)
         parts = []
-        in_constraint = False  # 标记是否在约束中（如FOREIGN KEY (...)）
+        in_constraint = False  # Whether inside a constraint (e.g., FOREIGN KEY (...))
         current_part = []
         for c in struct_part:
             if c == '(':
@@ -340,38 +341,39 @@ def get_filtered_schema(path_db=None, cur=None, example=None):
         if current_part:
             parts.append(''.join(current_part).strip())
         
-        # 过滤列定义：只保留需保留的列
+        # Filter column definitions: keep only the necessary columns
         filtered_parts = []
         for part in parts:
             part_stripped = part.strip()
             part_upper = part_stripped.upper()
-            # 判断是否为列定义（非约束）
+            # Check if it is a column definition (not a constraint)
             is_column_def = not part_upper.startswith(('PRIMARY KEY', 'FOREIGN KEY', 'UNIQUE'))
             if is_column_def and ' ' in part_stripped:
-                # 提取列名（处理带特殊字符的列名）
-                col_name = part_stripped.split()[0].strip().strip('`"')  # 移除引号/反引号
+                # Extract column name (handle names with special characters)
+                col_name = part_stripped.split()[0].strip().strip('`"')  # Remove quotes/backticks
                 if col_name in must_keep:
-                    filtered_parts.append(part)  # 保留需保留的列
+                    filtered_parts.append(part)  # Keep necessary columns
             else:
-                # 保留约束（即使涉及的列未被保留，避免破坏语法）
+                # Keep constraints (even if related columns are not kept, to avoid syntax issues)
                 filtered_parts.append(part)
         
-        # 打印过滤后的部分，验证是否包含必要列
-        # print(f"表 '{table_name}' 过滤后的列定义: {filtered_parts}")
+        # print(f"Table '{table_name}' filtered column definitions: {filtered_parts}")
         
-        # 重构CREATE语句
+        # Rebuild the CREATE statement
         new_struct = ', '.join(filtered_parts)
         new_create = f"{original_create[:start]}{new_struct}{original_create[end:]}"
         filtered_sqls.append(new_create)
 
-    # print(f"包含的表索引：{included_tables}")
-    # print(f"每个表保留的列：{ {table_names[k]: v for k, v in keep_columns.items()} }")
+    # print(f"Included table indexes: {included_tables}")
+    # print(f"Columns kept per table: { {table_names[k]: v for k, v in keep_columns.items()} }")
 
     if close_in_func:
         cur.close()
 
     return filtered_sqls
 
+
+# filter only tables
 # def get_filtered_schema(path_db=None, cur=None, example=None):
 #     """Extract filtered schema with automatic inclusion of tables containing required columns"""
 #     close_in_func = False
@@ -468,30 +470,30 @@ def get_filtered_schema(path_db=None, cur=None, example=None):
 #     # Filter out None or empty results
 #     return [result[0][0] for result in sqls if result and result[0]]
 
-
+# 
 def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
-    """提取过滤后的数据库模式，为保留的列添加示例数据（支持字符串、数字、日期类型）"""
+    """Extract filtered database schema and add example data for retained columns (supports string, numeric, and date types)"""
     close_in_func = False
     if cur is None:
         con = sqlite3.connect(path_db)
         cur = con.cursor()
         close_in_func = True
 
-    # 步骤1：获取所有表名
-    table_names = get_table_names(path_db, cur)  # 假设get_table_names已实现
+    # Step 1: Get all table names
+    table_names = get_table_names(path_db, cur)  # Assume get_table_names is already implemented
     
-    # 步骤2：构建“列索引→表索引”映射
+    # Step 2: Build "column index → table index" mapping
     column_to_table = {}
     for col_idx, table_idx in example.get("column_to_table", {}).items():
         if table_idx is not None and str(table_idx).isdigit():
             column_to_table[int(col_idx)] = int(table_idx)
 
-    # 步骤3：提取明确提到的表和列
+    # Step 3: Extract explicitly mentioned tables and columns
     sc_link = example.get("sc_link", {})
     included_tables = set()
     included_columns = set()
 
-    # 提取明确提到的表
+    # Extract explicitly mentioned tables
     for key in sc_link.get("q_tab_match", {}):
         try:
             _, tab_idx = key.split(",")
@@ -499,7 +501,7 @@ def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
         except (ValueError, IndexError):
             continue
 
-    # 提取明确提到的列
+    # Extract explicitly mentioned columns
     for key in sc_link.get("q_col_match", {}):
         try:
             _, col_idx = key.split(",")
@@ -507,7 +509,7 @@ def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
         except (ValueError, IndexError):
             continue
 
-    # 步骤4：补充包含相关列的表
+    # Step 4: Add tables containing relevant columns
     missing_tables = set()
     for col_idx in included_columns:
         if col_idx in column_to_table:
@@ -516,41 +518,41 @@ def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
                 missing_tables.add(table_idx)
     included_tables.update(missing_tables)
 
-    # 若未指定表，包含所有表
+    # If no tables specified, include all tables
     if not included_tables:
         included_tables = set(range(len(table_names)))
 
-    # 步骤5：通过外键关联补充表
+    # Step 5: Add tables via foreign key relationships
     fk_queries = []
     for tab_idx in included_tables:
         if tab_idx < len(table_names):
             fk_queries.append(f"PRAGMA foreign_key_list('{table_names[tab_idx]}')")
-    fk_results = execute_query(fk_queries, path_db, cur)  # 假设execute_query已实现
+    fk_results = execute_query(fk_queries, path_db, cur)  # Assume execute_query is already implemented
     for result in fk_results:
         for row in result:
             if len(row) >= 3 and row[2] in table_names:
                 referenced_idx = table_names.index(row[2])
                 included_tables.add(referenced_idx)
 
-    # 步骤6：提取每个表的关键信息（列、主键、外键）并确定保留列
-    table_info = {}  # {表索引: {columns: [], pk: [], fk: [], must_keep: []}}
+    # Step 6: Extract key info (columns, primary keys, foreign keys) for each table and determine retained columns
+    table_info = {}  # {table_index: {columns: [], pk: [], fk: [], must_keep: []}}
     for tab_idx in included_tables:
         if tab_idx >= len(table_names):
             continue
         table_name = table_names[tab_idx]
         
-        # 获取列信息
+        # Get column info
         cur.execute(f"PRAGMA table_info('{table_name}')")
         col_result = cur.fetchall()
         all_columns = [col[1] for col in col_result]
-        primary_keys = [col[1] for col in col_result if col[5] == 1]  # pk标记在索引5
+        primary_keys = [col[1] for col in col_result if col[5] == 1]  # pk flag is at index 5
         
-        # 获取外键列
+        # Get foreign key columns
         cur.execute(f"PRAGMA foreign_key_list('{table_name}')")
         fk_result = cur.fetchall()
-        foreign_keys = [row[3] for row in fk_result]  # 本地外键列在索引3
+        foreign_keys = [row[3] for row in fk_result]  # Local foreign key column is at index 3
         
-        # 确定相关列（示例中提到的列）
+        # Determine related columns (columns mentioned in example)
         related_cols = set()
         for col_idx in included_columns:
             if column_to_table.get(col_idx) == tab_idx:
@@ -558,7 +560,7 @@ def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
                 if col_name in all_columns:
                     related_cols.add(col_name)
         
-        # 保留列 = 相关列 + 主键 + 外键
+        # Columns to keep = related columns + primary keys + foreign keys
         must_keep = related_cols.union(primary_keys).union(foreign_keys)
         table_info[tab_idx] = {
             "columns": all_columns,
@@ -567,7 +569,7 @@ def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
             "must_keep": must_keep
         }
 
-    # 步骤7：生成带示例的过滤后schema
+    # Step 7: Generate filtered schema with examples
     final_schemas = []
     for tab_idx in included_tables:
         if tab_idx not in table_info:
@@ -576,50 +578,50 @@ def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
         table_name = table_names[tab_idx]
         must_keep = ti["must_keep"]
         
-        # 获取原CREATE语句
+        # Get original CREATE statement
         cur.execute(f"SELECT sql FROM sqlite_master WHERE tbl_name='{table_name}'")
         create_stmt = cur.fetchone()
         if not create_stmt or not create_stmt[0]:
             continue
         original_create = create_stmt[0]
 
-        # 为保留列获取示例数据
-        column_examples = {}  # {列名: [示例值]}
+        # Get example data for retained columns
+        column_examples = {}  # {column_name: [example_values]}
         for col in col_result:
             col_name = col[1]
             col_type = col[2].upper() if col[2] else ""
             if col_name not in must_keep:
-                continue  # 只处理保留列
+                continue  # Only process retained columns
             
-            # 查询非空示例（最多3个）
+            # Query non-null examples (up to 3)
             try:
                 cur.execute(f"SELECT {col_name} FROM {table_name} WHERE {col_name} IS NOT NULL LIMIT 2")
                 samples = [row[0] for row in cur.fetchall() if row[0] is not None]
                 if not samples:
                     continue
             except Exception as e:
-                print(f"获取示例失败 {table_name}.{col_name}: {e}")
+                print(f"Failed to get examples {table_name}.{col_name}: {e}")
                 continue
             
-            # 格式化示例（根据列类型处理）
+            # Format examples (process based on column type)
             formatted = []
             for s in samples:
                 if isinstance(s, str) or any(t in col_type for t in ["TEXT", "VARCHAR", "CHAR"]):
-                    # 字符串类型：加引号并转义内部引号
+                    # String type: add quotes and escape inner quotes
                     escaped = s.replace('"', '\\"').replace("'", "\\'")
                     formatted.append(f"'{escaped}'")
                 elif any(t in col_type for t in ["INT", "NUM", "DEC", "FLOAT"]):
-                    # 数字类型：直接保留
+                    # Numeric type: keep as is
                     formatted.append(str(s))
                 elif any(t in col_type for t in ["DATE", "DATETIME", "TIMESTAMP"]):
-                    # 日期类型：加引号
+                    # Date type: add quotes
                     formatted.append(f"'{s}'")
                 else:
-                    # 其他类型：默认加引号
+                    # Other types: default to adding quotes
                     formatted.append(f"'{s}'")
             column_examples[col_name] = formatted
 
-        # 修改CREATE语句，添加示例注释
+        # Modify CREATE statement to add example comments
         start = original_create.find('(') + 1
         end = original_create.rfind(')')
         if start >= end:
@@ -627,7 +629,7 @@ def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
             continue
         struct_part = original_create[start:end].strip()
         
-        # 拆分列定义和约束
+        # Split column definitions and constraints
         parts = []
         in_constraint = False
         current_part = []
@@ -646,24 +648,24 @@ def get_filtered_schema_with_examples(path_db=None, cur=None, example=None):
         if current_part:
             parts.append(''.join(current_part).strip())
         
-        # 过滤并添加示例
+        # Filter and add examples
         filtered_parts = []
         for part in parts:
-            # 处理列定义（非约束）
+            # Process column definitions (non-constraints)
             if ' ' in part and not part.strip().upper().startswith(('PRIMARY KEY', 'FOREIGN KEY', 'UNIQUE')):
                 col_name = part.split()[0].strip()
                 if col_name not in must_keep:
-                    continue  # 过滤非保留列
-                # 添加示例注释
+                    continue  # Filter out non-retained columns
+                # Add example comment
                 if col_name in column_examples:
                     example_str = ", ".join(column_examples[col_name])
                     part += f"  # e.g.: {example_str}"
                 filtered_parts.append(part)
             else:
-                # 保留约束
+                # Keep constraints
                 filtered_parts.append(part)
         
-        # 重构CREATE语句
+        # Rebuild CREATE statement
         new_struct = ', '.join(filtered_parts)
         new_create = f"{original_create[:start]}{new_struct}{original_create[end:]}"
         final_schemas.append(new_create)
