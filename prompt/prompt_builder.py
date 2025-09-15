@@ -92,6 +92,8 @@ def get_example_selector(selector_type: str):
         selector_cls = EuclideanDistanceQuestionMaskPreSkeletonSimilarThresholdSelector
     elif selector_type == SELECTOR_TYPE.EUC_DISTANCE_MASK_PRE_SKELETON_SIMILARITY_THRESHOLD_SHIFT:
         selector_cls = EuclideanDistanceQuestionMaskPreSkeletonSimilarThresholdShiftSelector
+    elif selector_type == SELECTOR_TYPE.KASSIM_SYNTAX:
+        selector_cls = KassimSyntaxFewShotSelector
     else:
         raise ValueError(f"{selector_type} is not supported yet!")
     return selector_cls

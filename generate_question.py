@@ -57,7 +57,8 @@ if __name__ == '__main__':
                                                               SELECTOR_TYPE.EUC_DISTANCE_PRE_SKELETON_SIMILARITY_THRESHOLD,
                                                               SELECTOR_TYPE.EUC_DISTANCE_PRE_SKELETON_SIMILARITY_PLUS,
                                                               SELECTOR_TYPE.EUC_DISTANCE_MASK_PRE_SKELETON_SIMILARITY_THRESHOLD,
-                                                              SELECTOR_TYPE.EUC_DISTANCE_MASK_PRE_SKELETON_SIMILARITY_THRESHOLD_SHIFT
+                                                              SELECTOR_TYPE.EUC_DISTANCE_MASK_PRE_SKELETON_SIMILARITY_THRESHOLD_SHIFT,
+                                                              SELECTOR_TYPE.KASSIM_SYNTAX
                                                               ], default=None)
     parser.add_argument("--max_seq_len", type=int, default=2048, help="The maximal length that LLM takes")
     parser.add_argument("--max_ans_len", type=int, default=200, help="The maximal length that an answer takes")

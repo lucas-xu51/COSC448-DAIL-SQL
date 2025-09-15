@@ -106,8 +106,10 @@ class StanfordNLParser:
         # Initialize stanza parser
         self.nlp = stanza.Pipeline(
             lang='en', 
+            dir="C:\\Users\\grizz\\stanza_resources", # 国内不调用github使用本地路径
             processors='tokenize,pos,lemma,depparse',
-            tokenize_pretokenized=True  # Assume input is already tokenized
+            tokenize_pretokenized=True,  # Assume input is already tokenized
+            download_method=stanza.DownloadMethod.REUSE_RESOURCES # 国内不调用github上的新模型可以直接使用本地的
         )
 
     def parse(self, query: Query) -> None:

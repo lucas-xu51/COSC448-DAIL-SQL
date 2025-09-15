@@ -1,6 +1,246 @@
 {
-  "original_question": "Return the product names, price, inventory, and inventory value of each product (`price*inventory`) (rename as `inventoryValue`) for products with price greater than `$20`. Order by product name ascending.",
+  "original_question": "Return the customer id, name, state, and shipment date for all customers in `'BC'` or `'IA'` that have had a shipment in `2022`. Order by `shipdate` descending and `cname` ascending. (Note: cname sort is only for auto-grader.)",
   "mapped_nodes": [
+    {
+      "label": "id",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.76,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.76,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.76,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.76,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.76,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.76,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipdate",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shippedproduct",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipment",
+          "element_type": "table",
+          "similarity": 0.47500000000000003,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "inventory",
+          "element_type": "column",
+          "similarity": 0.4266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "customer",
+          "element_type": "table",
+          "similarity": 0.4,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pname",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "amount",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "customer",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "customer",
+          "element_type": "table",
+          "similarity": 1.0,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipment",
+          "element_type": "table",
+          "similarity": 0.625,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state",
+          "element_type": "column",
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipdate",
+          "element_type": "column",
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "inventory",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.55,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shippedproduct",
+          "element_type": "table",
+          "similarity": 0.5285714285714286,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pname",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "amount",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
     {
       "label": "name",
       "token_type": "NT",
@@ -122,43 +362,43 @@
       ]
     },
     {
-      "label": "product",
+      "label": "state",
       "token_type": "NT",
       "mapped_elements": [
         {
-          "element_name": "product",
-          "element_type": "table",
-          "similarity": 1.0,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shippedproduct",
-          "element_type": "table",
-          "similarity": 0.7,
-          "mapped_values": []
-        },
-        {
-          "element_name": "price",
+          "element_name": "state",
           "element_type": "column",
-          "similarity": 0.6171428571428572,
-          "mapped_values": []
-        },
-        {
-          "element_name": "amount",
-          "element_type": "column",
-          "similarity": 0.6171428571428572,
+          "similarity": 0.96,
           "mapped_values": []
         },
         {
           "element_name": "shipdate",
           "element_type": "column",
-          "similarity": 0.585,
+          "similarity": 0.66,
           "mapped_values": []
         },
         {
           "element_name": "customer",
           "element_type": "table",
-          "similarity": 0.55,
+          "similarity": 0.625,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pname",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "amount",
+          "element_type": "column",
+          "similarity": 0.56,
           "mapped_values": []
         },
         {
@@ -168,69 +408,45 @@
           "mapped_values": []
         },
         {
-          "element_name": "city",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cname",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
           "element_name": "address",
           "element_type": "column",
-          "similarity": 0.44571428571428573,
+          "similarity": 0.5314285714285715,
           "mapped_values": []
         },
         {
-          "element_name": "state",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
           "mapped_values": []
         },
         {
-          "element_name": "pname",
+          "element_name": "shippedproduct",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
           "element_type": "column",
-          "similarity": 0.44571428571428573,
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
           "mapped_values": []
         },
         {
           "element_name": "sid",
           "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
+          "similarity": 0.48000000000000004,
           "mapped_values": []
         },
         {
           "element_name": "sid",
           "element_type": "column",
-          "similarity": 0.44571428571428573,
+          "similarity": 0.48000000000000004,
           "mapped_values": []
         },
         {
@@ -238,123 +454,27 @@
           "element_type": "column",
           "similarity": 0.4266666666666667,
           "mapped_values": []
-        }
-      ]
-    },
-    {
-      "label": "price",
-      "token_type": "NT",
-      "mapped_elements": [
-        {
-          "element_name": "price",
-          "element_type": "column",
-          "similarity": 0.96,
-          "mapped_values": []
         },
         {
-          "element_name": "product",
-          "element_type": "table",
-          "similarity": 0.6571428571428571,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cname",
+          "element_name": "cid",
           "element_type": "column",
-          "similarity": 0.6000000000000001,
+          "similarity": 0.36000000000000004,
           "mapped_values": []
         },
         {
           "element_name": "pid",
           "element_type": "column",
-          "similarity": 0.6000000000000001,
+          "similarity": 0.36000000000000004,
           "mapped_values": []
         },
         {
-          "element_name": "pname",
+          "element_name": "cid",
           "element_type": "column",
-          "similarity": 0.6000000000000001,
+          "similarity": 0.36000000000000004,
           "mapped_values": []
         },
         {
           "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.6000000000000001,
-          "mapped_values": []
-        },
-        {
-          "element_name": "customer",
-          "element_type": "table",
-          "similarity": 0.55,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipment",
-          "element_type": "table",
-          "similarity": 0.55,
-          "mapped_values": []
-        },
-        {
-          "element_name": "address",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shippedproduct",
-          "element_type": "table",
-          "similarity": 0.5285714285714286,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipdate",
-          "element_type": "column",
-          "similarity": 0.51,
-          "mapped_values": []
-        },
-        {
-          "element_name": "inventory",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "city",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "state",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "amount",
           "element_type": "column",
           "similarity": 0.36000000000000004,
           "mapped_values": []
@@ -362,137 +482,23 @@
       ]
     },
     {
-      "label": "inventory",
+      "label": "date",
       "token_type": "NT",
       "mapped_elements": [
         {
-          "element_name": "inventory",
+          "element_name": "state",
           "element_type": "column",
-          "similarity": 0.96,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipment",
-          "element_type": "table",
-          "similarity": 0.6666666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "customer",
-          "element_type": "table",
-          "similarity": 0.6,
-          "mapped_values": []
-        },
-        {
-          "element_name": "city",
-          "element_type": "column",
-          "similarity": 0.56,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shippedproduct",
-          "element_type": "table",
-          "similarity": 0.5285714285714286,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cname",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pname",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "price",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
+          "similarity": 0.72,
           "mapped_values": []
         },
         {
           "element_name": "shipdate",
           "element_type": "column",
-          "similarity": 0.4933333333333334,
+          "similarity": 0.66,
           "mapped_values": []
         },
-        {
-          "element_name": "amount",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "product",
-          "element_type": "table",
-          "similarity": 0.4666666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "address",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "state",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        }
-      ]
-    },
-    {
-      "label": "value",
-      "token_type": "NT",
-      "mapped_elements": [
         {
           "element_name": "cname",
-          "element_type": "column",
-          "similarity": 0.6000000000000001,
-          "mapped_values": []
-        },
-        {
-          "element_name": "state",
           "element_type": "column",
           "similarity": 0.6000000000000001,
           "mapped_values": []
@@ -501,6 +507,12 @@
           "element_name": "pname",
           "element_type": "column",
           "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
           "mapped_values": []
         },
         {
@@ -522,19 +534,49 @@
           "mapped_values": []
         },
         {
-          "element_name": "shipdate",
+          "element_name": "cid",
           "element_type": "column",
           "similarity": 0.51,
           "mapped_values": []
         },
         {
-          "element_name": "inventory",
+          "element_name": "city",
           "element_type": "column",
-          "similarity": 0.4933333333333334,
+          "similarity": 0.51,
           "mapped_values": []
         },
         {
-          "element_name": "product",
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shippedproduct",
           "element_type": "table",
           "similarity": 0.4857142857142857,
           "mapped_values": []
@@ -552,201 +594,159 @@
           "mapped_values": []
         },
         {
-          "element_name": "shippedproduct",
-          "element_type": "table",
-          "similarity": 0.4428571428571429,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.36000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "city",
-          "element_type": "column",
-          "similarity": 0.36000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.36000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.36000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.36000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.36000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.36000000000000004,
-          "mapped_values": []
-        }
-      ]
-    },
-    {
-      "label": "inventory",
-      "token_type": "NT",
-      "mapped_elements": [
-        {
           "element_name": "inventory",
           "element_type": "column",
-          "similarity": 0.96,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipment",
-          "element_type": "table",
-          "similarity": 0.6666666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "customer",
-          "element_type": "table",
-          "similarity": 0.6,
-          "mapped_values": []
-        },
-        {
-          "element_name": "city",
-          "element_type": "column",
-          "similarity": 0.56,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shippedproduct",
-          "element_type": "table",
-          "similarity": 0.5285714285714286,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cname",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pname",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "price",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipdate",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "amount",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "product",
-          "element_type": "table",
-          "similarity": 0.4666666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "address",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "state",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
           "similarity": 0.4266666666666667,
           "mapped_values": []
         }
       ]
     },
     {
-      "label": "product",
+      "label": "shipment",
       "token_type": "NT",
       "mapped_elements": [
         {
-          "element_name": "product",
+          "element_name": "shipment",
           "element_type": "table",
           "similarity": 1.0,
           "mapped_values": []
         },
         {
-          "element_name": "shippedproduct",
-          "element_type": "table",
-          "similarity": 0.7,
+          "element_name": "shipdate",
+          "element_type": "column",
+          "similarity": 0.7350000000000001,
           "mapped_values": []
         },
         {
-          "element_name": "price",
+          "element_name": "shippedproduct",
+          "element_type": "table",
+          "similarity": 0.6571428571428571,
+          "mapped_values": []
+        },
+        {
+          "element_name": "inventory",
           "element_type": "column",
-          "similarity": 0.6171428571428572,
+          "similarity": 0.6266666666666667,
+          "mapped_values": []
+        },
+        {
+          "element_name": "customer",
+          "element_type": "table",
+          "similarity": 0.625,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pname",
+          "element_type": "column",
+          "similarity": 0.585,
           "mapped_values": []
         },
         {
           "element_name": "amount",
           "element_type": "column",
-          "similarity": 0.6171428571428572,
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.55,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "customer",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "customer",
+          "element_type": "table",
+          "similarity": 1.0,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipment",
+          "element_type": "table",
+          "similarity": 0.625,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state",
+          "element_type": "column",
+          "similarity": 0.585,
           "mapped_values": []
         },
         {
@@ -756,325 +756,85 @@
           "mapped_values": []
         },
         {
-          "element_name": "customer",
-          "element_type": "table",
-          "similarity": 0.55,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipment",
-          "element_type": "table",
-          "similarity": 0.55,
-          "mapped_values": []
-        },
-        {
-          "element_name": "city",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cname",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "address",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "state",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pname",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
           "element_name": "inventory",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        }
-      ]
-    },
-    {
-      "label": "inventory",
-      "token_type": "NT",
-      "mapped_elements": [
-        {
-          "element_name": "inventory",
-          "element_type": "column",
-          "similarity": 0.96,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipment",
-          "element_type": "table",
-          "similarity": 0.6666666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "customer",
-          "element_type": "table",
-          "similarity": 0.6,
-          "mapped_values": []
-        },
-        {
-          "element_name": "city",
           "element_type": "column",
           "similarity": 0.56,
           "mapped_values": []
         },
         {
-          "element_name": "shippedproduct",
-          "element_type": "table",
-          "similarity": 0.5285714285714286,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cname",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pname",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "price",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipdate",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "amount",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
           "element_name": "product",
           "element_type": "table",
-          "similarity": 0.4666666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "address",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "state",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        }
-      ]
-    },
-    {
-      "label": "price",
-      "token_type": "NT",
-      "mapped_elements": [
-        {
-          "element_name": "price",
-          "element_type": "column",
-          "similarity": 0.96,
-          "mapped_values": []
-        },
-        {
-          "element_name": "product",
-          "element_type": "table",
-          "similarity": 0.6571428571428571,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cname",
-          "element_type": "column",
-          "similarity": 0.6000000000000001,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.6000000000000001,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pname",
-          "element_type": "column",
-          "similarity": 0.6000000000000001,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.6000000000000001,
-          "mapped_values": []
-        },
-        {
-          "element_name": "customer",
-          "element_type": "table",
           "similarity": 0.55,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipment",
-          "element_type": "table",
-          "similarity": 0.55,
-          "mapped_values": []
-        },
-        {
-          "element_name": "address",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
           "mapped_values": []
         },
         {
           "element_name": "shippedproduct",
           "element_type": "table",
           "similarity": 0.5285714285714286,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipdate",
-          "element_type": "column",
-          "similarity": 0.51,
-          "mapped_values": []
-        },
-        {
-          "element_name": "inventory",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
           "mapped_values": []
         },
         {
           "element_name": "city",
           "element_type": "column",
-          "similarity": 0.48000000000000004,
+          "similarity": 0.51,
           "mapped_values": []
         },
         {
-          "element_name": "state",
+          "element_name": "pname",
           "element_type": "column",
-          "similarity": 0.48000000000000004,
+          "similarity": 0.51,
           "mapped_values": []
         },
         {
-          "element_name": "sid",
+          "element_name": "price",
           "element_type": "column",
-          "similarity": 0.48000000000000004,
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "amount",
+          "element_type": "column",
+          "similarity": 0.51,
           "mapped_values": []
         },
         {
           "element_name": "cid",
           "element_type": "column",
-          "similarity": 0.48000000000000004,
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
           "mapped_values": []
         },
         {
           "element_name": "sid",
           "element_type": "column",
-          "similarity": 0.48000000000000004,
+          "similarity": 0.43500000000000005,
           "mapped_values": []
         },
         {
-          "element_name": "amount",
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
           "element_type": "column",
           "similarity": 0.36000000000000004,
           "mapped_values": []
@@ -1082,255 +842,135 @@
       ]
     },
     {
-      "label": "product",
+      "label": "shipment",
       "token_type": "NT",
       "mapped_elements": [
         {
-          "element_name": "product",
+          "element_name": "shipment",
           "element_type": "table",
           "similarity": 1.0,
           "mapped_values": []
         },
         {
-          "element_name": "shippedproduct",
-          "element_type": "table",
-          "similarity": 0.7,
-          "mapped_values": []
-        },
-        {
-          "element_name": "price",
-          "element_type": "column",
-          "similarity": 0.6171428571428572,
-          "mapped_values": []
-        },
-        {
-          "element_name": "amount",
-          "element_type": "column",
-          "similarity": 0.6171428571428572,
-          "mapped_values": []
-        },
-        {
           "element_name": "shipdate",
           "element_type": "column",
-          "similarity": 0.585,
+          "similarity": 0.7350000000000001,
           "mapped_values": []
         },
         {
-          "element_name": "customer",
-          "element_type": "table",
-          "similarity": 0.55,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipment",
-          "element_type": "table",
-          "similarity": 0.55,
-          "mapped_values": []
-        },
-        {
-          "element_name": "city",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cname",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "address",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "state",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pname",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "inventory",
-          "element_type": "column",
-          "similarity": 0.4266666666666667,
-          "mapped_values": []
-        }
-      ]
-    },
-    {
-      "label": "price",
-      "token_type": "NT",
-      "mapped_elements": [
-        {
-          "element_name": "price",
-          "element_type": "column",
-          "similarity": 0.96,
-          "mapped_values": []
-        },
-        {
-          "element_name": "product",
+          "element_name": "shippedproduct",
           "element_type": "table",
           "similarity": 0.6571428571428571,
           "mapped_values": []
         },
         {
-          "element_name": "cname",
+          "element_name": "inventory",
           "element_type": "column",
-          "similarity": 0.6000000000000001,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.6000000000000001,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pname",
-          "element_type": "column",
-          "similarity": 0.6000000000000001,
-          "mapped_values": []
-        },
-        {
-          "element_name": "pid",
-          "element_type": "column",
-          "similarity": 0.6000000000000001,
+          "similarity": 0.6266666666666667,
           "mapped_values": []
         },
         {
           "element_name": "customer",
           "element_type": "table",
-          "similarity": 0.55,
+          "similarity": 0.625,
           "mapped_values": []
         },
         {
-          "element_name": "shipment",
-          "element_type": "table",
-          "similarity": 0.55,
-          "mapped_values": []
-        },
-        {
-          "element_name": "address",
+          "element_name": "pname",
           "element_type": "column",
-          "similarity": 0.5314285714285715,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shippedproduct",
-          "element_type": "table",
-          "similarity": 0.5285714285714286,
-          "mapped_values": []
-        },
-        {
-          "element_name": "shipdate",
-          "element_type": "column",
-          "similarity": 0.51,
-          "mapped_values": []
-        },
-        {
-          "element_name": "inventory",
-          "element_type": "column",
-          "similarity": 0.4933333333333334,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "city",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "state",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.48000000000000004,
+          "similarity": 0.585,
           "mapped_values": []
         },
         {
           "element_name": "amount",
           "element_type": "column",
-          "similarity": 0.36000000000000004,
+          "similarity": 0.585,
+          "mapped_values": []
+        },
+        {
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.55,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.43500000000000005,
           "mapped_values": []
         }
       ]
     },
     {
-      "label": "20",
+      "label": "2022",
       "token_type": "VTNUM",
       "mapped_elements": [
         {
-          "element_name": "VALUE:20",
+          "element_name": "VALUE:2022",
           "element_type": "value",
-          "similarity": 0.35,
+          "similarity": 0.44,
           "mapped_values": [
-            "20"
+            "2022"
           ]
         }
       ]
@@ -1456,13 +1096,13 @@
       ]
     },
     {
-      "label": "name",
+      "label": "cname",
       "token_type": "NT",
       "mapped_elements": [
         {
           "element_name": "cname",
           "element_type": "column",
-          "similarity": 0.8400000000000001,
+          "similarity": 0.96,
           "mapped_values": []
         },
         {
@@ -1472,7 +1112,19 @@
           "mapped_values": []
         },
         {
+          "element_name": "customer",
+          "element_type": "table",
+          "similarity": 0.625,
+          "mapped_values": []
+        },
+        {
           "element_name": "state",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
           "element_type": "column",
           "similarity": 0.6000000000000001,
           "mapped_values": []
@@ -1481,12 +1133,6 @@
           "element_name": "amount",
           "element_type": "column",
           "similarity": 0.56,
-          "mapped_values": []
-        },
-        {
-          "element_name": "customer",
-          "element_type": "table",
-          "similarity": 0.55,
           "mapped_values": []
         },
         {
@@ -1514,7 +1160,25 @@
           "mapped_values": []
         },
         {
-          "element_name": "price",
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
           "element_type": "column",
           "similarity": 0.48000000000000004,
           "mapped_values": []
@@ -1526,19 +1190,115 @@
           "mapped_values": []
         },
         {
-          "element_name": "product",
-          "element_type": "table",
-          "similarity": 0.4,
-          "mapped_values": []
-        },
-        {
-          "element_name": "cid",
+          "element_name": "pid",
           "element_type": "column",
           "similarity": 0.36000000000000004,
           "mapped_values": []
         },
         {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "note",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pname",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "amount",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "customer",
+          "element_type": "table",
+          "similarity": 0.55,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipment",
+          "element_type": "table",
+          "similarity": 0.55,
+          "mapped_values": []
+        },
+        {
           "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipdate",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "inventory",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shippedproduct",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "column",
+          "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
           "element_type": "column",
           "similarity": 0.36000000000000004,
           "mapped_values": []
@@ -1576,43 +1336,151 @@
       ]
     },
     {
-      "label": "product",
+      "label": "auto-grader",
       "token_type": "NT",
       "mapped_elements": [
         {
-          "element_name": "product",
+          "element_name": "customer",
           "element_type": "table",
-          "similarity": 1.0,
+          "similarity": 0.6727272727272727,
           "mapped_values": []
         },
         {
-          "element_name": "shippedproduct",
-          "element_type": "table",
-          "similarity": 0.7,
-          "mapped_values": []
-        },
-        {
-          "element_name": "price",
+          "element_name": "address",
           "element_type": "column",
-          "similarity": 0.6171428571428572,
+          "similarity": 0.5236363636363637,
           "mapped_values": []
         },
         {
-          "element_name": "amount",
+          "element_name": "state",
           "element_type": "column",
-          "similarity": 0.6171428571428572,
+          "similarity": 0.5236363636363637,
+          "mapped_values": []
+        },
+        {
+          "element_name": "inventory",
+          "element_type": "column",
+          "similarity": 0.5236363636363637,
           "mapped_values": []
         },
         {
           "element_name": "shipdate",
           "element_type": "column",
-          "similarity": 0.585,
+          "similarity": 0.5236363636363637,
           "mapped_values": []
         },
         {
+          "element_name": "amount",
+          "element_type": "column",
+          "similarity": 0.5236363636363637,
+          "mapped_values": []
+        },
+        {
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.5090909090909091,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shippedproduct",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.4690909090909091,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pname",
+          "element_type": "column",
+          "similarity": 0.4690909090909091,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
+          "element_type": "column",
+          "similarity": 0.4690909090909091,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipment",
+          "element_type": "table",
+          "similarity": 0.4545454545454546,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.4145454545454546,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.4145454545454546,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.4145454545454546,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.4145454545454546,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.4145454545454546,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.4145454545454546,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.4145454545454546,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "sort",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
           "element_name": "customer",
           "element_type": "table",
-          "similarity": 0.55,
+          "similarity": 0.625,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.5714285714285714,
+          "mapped_values": []
+        },
+        {
+          "element_name": "amount",
+          "element_type": "column",
+          "similarity": 0.56,
           "mapped_values": []
         },
         {
@@ -1622,33 +1490,45 @@
           "mapped_values": []
         },
         {
+          "element_name": "shippedproduct",
+          "element_type": "table",
+          "similarity": 0.5285714285714286,
+          "mapped_values": []
+        },
+        {
           "element_name": "city",
           "element_type": "column",
-          "similarity": 0.5314285714285715,
+          "similarity": 0.51,
           "mapped_values": []
         },
         {
-          "element_name": "pid",
+          "element_name": "sid",
           "element_type": "column",
-          "similarity": 0.5314285714285715,
+          "similarity": 0.51,
           "mapped_values": []
         },
         {
-          "element_name": "pid",
+          "element_name": "shipdate",
           "element_type": "column",
-          "similarity": 0.5314285714285715,
+          "similarity": 0.51,
           "mapped_values": []
         },
         {
-          "element_name": "cid",
+          "element_name": "sid",
           "element_type": "column",
-          "similarity": 0.44571428571428573,
+          "similarity": 0.51,
           "mapped_values": []
         },
         {
-          "element_name": "cname",
+          "element_name": "inventory",
           "element_type": "column",
-          "similarity": 0.44571428571428573,
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
           "mapped_values": []
         },
         {
@@ -1658,33 +1538,195 @@
           "mapped_values": []
         },
         {
-          "element_name": "state",
+          "element_name": "cid",
           "element_type": "column",
-          "similarity": 0.44571428571428573,
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
           "mapped_values": []
         },
         {
           "element_name": "pname",
           "element_type": "column",
-          "similarity": 0.44571428571428573,
-          "mapped_values": []
-        },
-        {
-          "element_name": "sid",
-          "element_type": "column",
-          "similarity": 0.44571428571428573,
+          "similarity": 0.36000000000000004,
           "mapped_values": []
         },
         {
           "element_name": "cid",
           "element_type": "column",
-          "similarity": 0.44571428571428573,
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "cname",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.96,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pname",
+          "element_type": "column",
+          "similarity": 0.8400000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "customer",
+          "element_type": "table",
+          "similarity": 0.625,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
+          "element_type": "column",
+          "similarity": 0.6000000000000001,
+          "mapped_values": []
+        },
+        {
+          "element_name": "amount",
+          "element_type": "column",
+          "similarity": 0.56,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipment",
+          "element_type": "table",
+          "similarity": 0.55,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "column",
+          "similarity": 0.5314285714285715,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipdate",
+          "element_type": "column",
+          "similarity": 0.51,
+          "mapped_values": []
+        },
+        {
+          "element_name": "inventory",
+          "element_type": "column",
+          "similarity": 0.4933333333333334,
+          "mapped_values": []
+        },
+        {
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shippedproduct",
+          "element_type": "table",
+          "similarity": 0.4428571428571429,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
           "mapped_values": []
         },
         {
           "element_name": "sid",
           "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        }
+      ]
+    },
+    {
+      "label": "-rrb-",
+      "token_type": "NT",
+      "mapped_elements": [
+        {
+          "element_name": "product",
+          "element_type": "table",
+          "similarity": 0.4857142857142857,
+          "mapped_values": []
+        },
+        {
+          "element_name": "price",
+          "element_type": "column",
+          "similarity": 0.48000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "customer",
+          "element_type": "table",
+          "similarity": 0.47500000000000003,
+          "mapped_values": []
+        },
+        {
+          "element_name": "address",
+          "element_type": "column",
           "similarity": 0.44571428571428573,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shippedproduct",
+          "element_type": "table",
+          "similarity": 0.4428571428571429,
           "mapped_values": []
         },
         {
@@ -1692,11 +1734,103 @@
           "element_type": "column",
           "similarity": 0.4266666666666667,
           "mapped_values": []
+        },
+        {
+          "element_name": "shipment",
+          "element_type": "table",
+          "similarity": 0.4,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cname",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "city",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "state",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pname",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "cid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "shipdate",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "sid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "pid",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
+        },
+        {
+          "element_name": "amount",
+          "element_type": "column",
+          "similarity": 0.36000000000000004,
+          "mapped_values": []
         }
       ]
     }
   ],
-  "entities": [],
-  "adjusted_trees_count": 5,
+  "entities": [
+    {
+      "left_node": {
+        "label": "note",
+        "token_type": "NT",
+        "word_order": 49
+      },
+      "right_node": {
+        "label": "cname",
+        "token_type": "NT",
+        "word_order": 51
+      },
+      "relation": "entity_to_entity"
+    }
+  ],
+  "adjusted_trees_count": 1,
   "nl_explanations": []
 }
