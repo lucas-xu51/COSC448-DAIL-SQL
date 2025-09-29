@@ -420,10 +420,9 @@ class KassimSyntaxFewShotSelector(BasicExampleSelector):
     def __init__(self, data, *args, **kwargs):
         super().__init__(data)
 
-        # 移除阈值参数，无需设置
-        self.fk_model = FastKassim(FastKassim.LTK)  # 使用 Label Tree Kernel
+        self.fk_model = FastKassim(FastKassim.LTK) 
 
-        # 解析所有训练问题的语法树
+        # Parse the syntax tree for all training questions
         self.train_questions = [q["question"] for q in self.train_json]
         self.train_parsed = [self.fk_model.parse_document(q) for q in self.train_questions]
 
@@ -433,22 +432,20 @@ class KassimSyntaxFewShotSelector(BasicExampleSelector):
 
         similarities = []
         for i, parsed_q in enumerate(self.train_parsed):
-            # 计算 target 与训练题的语法树相似度
+            # Calculate the similarity of the syntax tree between target and the training question
             sim = self.fk_model.compute_similarity_preparsed(target_parsed, parsed_q)
             similarities.append((i, sim))
 
-        # 按相似度降序排列
+        # Arrange in descending order of similarity
         similarities_sorted = sorted(similarities, key=lambda x: x[1], reverse=True)
 
         top_pairs = []
         for index, sim in similarities_sorted:
             similar_db_id = self.train_json[index]["db_id"]
-            # 仅保留跨域/同域的过滤逻辑，移除阈值判断
+            # Only retain the cross-domain/intra-domain filtering logic and remove the threshold judgment
             if cross_domain and similar_db_id == target["db_id"]:
                 continue
-            # 直接添加，不考虑相似度是否低于阈值
             top_pairs.append((index, sim))
-            # 达到所需示例数量后停止
             if len(top_pairs) >= num_example:
                 break
 
