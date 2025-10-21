@@ -47,3 +47,6 @@ build/
 # --- OS sync tools ---
 *.sync/
 *.bak~
+
+
+*.env
