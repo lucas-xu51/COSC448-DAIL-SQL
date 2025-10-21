@@ -222,7 +222,7 @@ if __name__ == '__main__':
 
         schema_linking_producer(
             "dev.json", 
-            "train_spider_and_others.json", 
+            "dev.json", 
             "tables.json", 
             "database", 
             spider_dir,

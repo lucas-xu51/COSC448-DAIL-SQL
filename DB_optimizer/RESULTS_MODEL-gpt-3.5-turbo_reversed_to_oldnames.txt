@@ -1,0 +1,92 @@
+SELECT count(*) FROM continents 
+SELECT count(*) FROM continents 
+SELECT T1.Continent, T1.Continent, COUNT(*) FROM continents AS T1 JOIN countries AS T2 ON T1.Continent = T2.Continent GROUP BY T1.Continent, T1.Continent
+SELECT T1.Continent, T1.Continent, COUNT(T2.Country) FROM continents AS T1 JOIN countries AS T2 ON T1.Continent = T2.Continent GROUP BY T1.Continent, T1.Continent
+SELECT count(*) FROM countries
+SELECT count(*) FROM countries;
+SELECT c.FullName, c.Maker, COUNT(m.ModelId) FROM car_makers c JOIN model_list m ON c.Maker = m.Maker GROUP BY c.FullName, c.Maker
+SELECT c.Maker, c.FullName, COUNT(m.ModelId) AS NumModels FROM car_makers c JOIN model_list m ON c.Maker = m.Maker GROUP BY c.Maker, c.FullName
+SELECT T1.Model FROM model_list AS T1 JOIN car_names AS T2 ON T1.ModelId = T2.ModelId JOIN cars_data AS T3 ON T2.MakeId = T3.Id ORDER BY T3.Horsepower ASC LIMIT 1;
+SELECT Model FROM model_list WHERE ModelId = (SELECT ModelId FROM car_names WHERE MakeId = (SELECT Id FROM cars_data WHERE Horsepower = (SELECT MIN(Horsepower) FROM cars_data)));
+SELECT model_list.Model FROM model_list JOIN car_names ON model_list.ModelId = car_names.ModelId JOIN cars_data ON car_names.MakeId = cars_data.Id WHERE cars_data.Weight < (SELECT avg(Weight) FROM cars_data)
+SELECT model_list.Model FROM model_list JOIN car_names ON model_list.ModelId = car_names.ModelId JOIN cars_data ON car_names.MakeId = cars_data.Id WHERE cars_data.Weight < (SELECT avg(Weight) FROM cars_data)
+SELECT Maker, FullName FROM car_makers WHERE Maker IN (SELECT Maker FROM model_list WHERE ModelId IN (SELECT ModelId FROM car_names WHERE MakeId IN (SELECT Id FROM cars_data WHERE Year = 1970)))
+SELECT T2.FullName FROM car_makers AS T1 JOIN model_list AS T2 ON T1.Maker = T2.Maker JOIN car_names AS T3 ON T2.ModelId = T3.ModelId JOIN cars_data AS T4 ON T3.MakeId = T4.Id WHERE T4.Year = 1970;
+SELECT T2.Maker, T2.FullName, T4.Year FROM car_names AS T1 JOIN model_list AS T2 ON T1.Model = T2.Model JOIN car_makers AS T3 ON T2.Maker = T3.Maker JOIN cars_data AS T4 ON T1.MakeId = T4.Id ORDER BY T4.Year ASC LIMIT 1
+SELECT T2.Maker, T1.Year FROM cars_data AS T1 JOIN car_names AS T2 ON T1.Id = T2.MakeId JOIN model_list AS T3 ON T2.Model = T3.Model JOIN car_makers AS T4 ON T3.Maker = T4.Maker ORDER BY T1.Year ASC LIMIT 1
+SELECT DISTINCT Model FROM model_list WHERE Year > 1980
+SELECT model_list.Model FROM model_list JOIN car_names ON model_list.ModelId = car_names.Model JOIN cars_data ON car_names.MakeId = cars_data.Id WHERE cars_data.Year > 1980;
+SELECT C.Continent, COUNT(DISTINCT M.Maker) FROM continents C JOIN countries CO ON C.Continent = CO.Continent JOIN car_makers M ON CO.Country = M.Country GROUP BY C.Continent
+SELECT T1.Continent, COUNT(T2.Maker) FROM continents AS T1 JOIN countries AS T2 ON T1.Continent = T2.Continent JOIN car_makers AS T3 ON T2.Country = T3.Country GROUP BY T1.Continent
+SELECT t2.CountryName FROM car_makers AS t1 JOIN countries AS t2 ON t1.Country = t2.Country GROUP BY t2.CountryName ORDER BY count(*) DESC LIMIT 1
+SELECT T2.CountryName FROM countries AS T2 JOIN car_makers AS T1 ON T2.Country = T1.Country GROUP BY T2.Country ORDER BY count(*) DESC LIMIT 1
+SELECT COUNT(*), FullName FROM car_makers JOIN model_list ON car_makers.Maker = model_list.Maker GROUP BY FullName
+SELECT c.Maker, c.FullName, COUNT(m.ModelId) FROM car_makers c JOIN model_list m ON c.Maker = m.Maker GROUP BY c.Maker, c.FullName
+SELECT T1.Accelerate FROM cars_data AS T1 JOIN car_names AS T2 ON T1.Id = T2.MakeId JOIN model_list AS T3 ON T2.Model = T3.Model JOIN car_makers AS T4 ON T3.Maker = T4.Maker WHERE T4.Maker = 'amc' AND T3.Model = 'hornet sportabout (sw)'
+SELECT Accelerate FROM cars_data AS cs JOIN car_names AS cv ON cs.Id = cv.MakeId JOIN model_list AS cm ON cv.Model = cm.Model WHERE cm.Model = 'amc hornet sportabout (sw)'
+SELECT COUNT(DISTINCT cm.Maker) FROM car_makers AS cm JOIN countries AS ci ON cm.Country = ci.Country WHERE ci.CountryName = "France";
+SELECT count(DISTINCT Maker) FROM car_makers WHERE Country = (SELECT Country FROM countries WHERE CountryName = "France")
+SELECT COUNT(DISTINCT T3.Model) FROM car_makers AS T1 JOIN countries AS T2 ON T1.Country = T2.Country JOIN model_list AS T3 ON T1.Maker = T3.Maker WHERE T2.CountryName = 'USA';
+SELECT COUNT(DISTINCT Model) FROM model_list JOIN car_makers ON model_list.Maker = car_makers.Maker JOIN countries ON car_makers.Country = countries.Country WHERE countries.CountryName = 'United States';
+SELECT AVG(MPG) FROM cars_data WHERE Cylinders = 4
+SELECT avg(MPG) FROM cars_data WHERE Cylinders = 4
+SELECT MIN(Weight) FROM cars_data WHERE Cylinders = 8 AND Year = 1974
+SELECT min(Weight) FROM cars_data AS T1 JOIN car_names AS T2 ON T1.Id = T2.MakeId JOIN model_list AS T3 ON T2.Model = T3.Model WHERE T1.Cylinders = 8 AND T1.Year = 1974
+SELECT Maker, Model FROM car_makers JOIN model_list ON car_makers.Maker = model_list.Maker 
+SELECT Maker, Model FROM car_makers JOIN model_list ON car_makers.Maker = model_list.Maker;
+SELECT CountryName, Country FROM countries WHERE Country IN (SELECT DISTINCT Country FROM car_makers)
+SELECT T2.Country, T2.CountryName FROM car_makers AS T1 JOIN countries AS T2 ON T1.Country = T2.Country GROUP BY T2.Country, T2.CountryName
+SELECT count(*) FROM cars_data WHERE Horsepower > 150
+SELECT count(*) FROM cars_data WHERE Horsepower > 150
+SELECT avg(Weight), Year FROM cars_data GROUP BY Year
+SELECT avg(Weight), avg(Year) FROM cars_data GROUP BY Year
+SELECT T1.CountryName FROM countries AS T1 JOIN continents AS T2 ON T1.Continent = T2.Continent JOIN car_makers AS T3 ON T1.Country = T3.Country WHERE T2.Continent = 'Europe' GROUP BY T1.CountryName HAVING COUNT(DISTINCT T3.Maker) >= 3
+SELECT CountryName FROM countries WHERE Continent IN (SELECT Continent FROM continents WHERE Continent = 'Europe') AND Country IN (SELECT Country FROM car_makers GROUP BY Country HAVING COUNT(Maker) >= 3)
+SELECT max(Horsepower), Maker FROM car_makers JOIN model_list ON car_makers.Maker = model_list.Maker JOIN car_names ON model_list.ModelId = car_names.ModelId JOIN cars_data ON car_names.MakeId = cars_data.Id WHERE Cylinders = 3
+SELECT max(Horsepower), Maker FROM car_makers JOIN model_list ON car_makers.Maker = model_list.Maker JOIN car_names ON model_list.ModelId = car_names.ModelId JOIN cars_data ON car_names.MakeId = cars_data.Id WHERE Cylinders = 3
+SELECT Model, MPG FROM cars_data ORDER BY MPG DESC LIMIT 1;
+SELECT model_list.Model FROM model_list JOIN car_names ON model_list.ModelId = car_names.ModelId JOIN cars_data ON car_names.MakeId = cars_data.Id ORDER BY CAST(cars_data.MPG AS INTEGER) DESC LIMIT 1
+SELECT avg(Horsepower) FROM cars_data WHERE Year < 1980
+SELECT AVG(Horsepower) FROM cars_data WHERE Year < 1980
+SELECT avg(Edispl) FROM cars_data AS CS JOIN car_names AS CV ON CS.Id = CV.MakeId JOIN model_list AS CM ON CV.Model = CM.Model JOIN car_makers AS CMA ON CM.Maker = CMA.Maker WHERE CMA.Maker = 'Volvo'
+SELECT avg(CS.Edispl) FROM cars_data AS CS JOIN car_names AS CV ON CS.Id = CV.MakeId JOIN model_list AS CM ON CV.Model = CM.Model JOIN car_makers AS CMA ON CM.Maker = CMA.Maker WHERE CMA.Maker = 'Volvo'
+SELECT max(Accelerate), Cylinders FROM cars_data GROUP BY Cylinders
+SELECT max(Accelerate), Cylinders FROM cars_data GROUP BY Cylinders
+SELECT Model FROM model_list GROUP BY Model ORDER BY COUNT(*) DESC LIMIT 1
+SELECT T1.Model, COUNT(DISTINCT T2.Make) AS NumVersions FROM model_list AS T1 JOIN car_names AS T2 ON T1.ModelId = T2.ModelId GROUP BY T1.Model ORDER BY NumVersions DESC LIMIT 1;
+SELECT count(*) FROM cars_data WHERE Cylinders > 4;
+SELECT count(*) FROM cars_data WHERE Cylinders > 4
+SELECT COUNT(*) FROM cars_data WHERE Year = 1980;
+SELECT count(*) FROM cars_data WHERE Year = 1980
+SELECT count(*) FROM model_list AS T1 JOIN car_makers AS T2 ON T1.Maker = T2.Maker WHERE T2.FullName = 'American Motor Company'
+SELECT count(*) FROM model_list JOIN car_makers ON model_list.Maker = car_makers.Maker WHERE car_makers.Maker = 'AMC'
+SELECT T1.FullName, T1.Maker FROM car_makers AS T1 JOIN model_list AS T2 ON T1.Maker = T2.Maker GROUP BY T1.Maker HAVING COUNT(T2.ModelId) > 3
+SELECT T2.Maker, T2.FullName FROM model_list AS T1 JOIN car_makers AS T2 ON T1.Maker = T2.Maker GROUP BY T1.Maker HAVING count(T1.ModelId) > 3;
+SELECT DISTINCT t3.Model FROM model_list AS t1 JOIN car_makers AS t2 ON t1.Maker = t2.Maker JOIN car_names AS t3 ON t1.ModelId = t3.ModelId JOIN cars_data AS t4 ON t3.MakeId = t4.Id WHERE t2.FullName = 'General Motors' OR t4.Weight > 3500
+SELECT DISTINCT Model FROM model_list WHERE Maker IN (SELECT Maker FROM car_makers WHERE Maker = 'General Motors') OR ModelId IN (SELECT MakeId FROM cars_data WHERE Weight > 3500)
+SELECT Year FROM cars_data WHERE Weight >= 3000 AND Weight <= 4000
+SELECT DISTINCT Year FROM cars_data WHERE Weight < 4000 OR Weight > 3000
+SELECT Horsepower FROM cars_data WHERE Accelerate = (SELECT MAX(Accelerate) FROM cars_data)
+SELECT Horsepower FROM cars_data ORDER BY Accelerate DESC LIMIT 1
+SELECT Cylinders FROM cars_data WHERE Id IN (SELECT MakeId FROM car_names WHERE Model IN (SELECT ModelId FROM model_list WHERE Maker IN (SELECT Maker FROM car_makers WHERE Maker = 'volvo'))) ORDER BY Accelerate ASC LIMIT 1;
+SELECT MIN(Cylinders) FROM cars_data WHERE Id IN (SELECT MakeId FROM car_names WHERE Model IN (SELECT ModelId FROM model_list WHERE Maker IN (SELECT Maker FROM car_makers WHERE Maker = 'Volvo'))) AND Accelerate = (SELECT MIN(Accelerate) FROM cars_data WHERE Id IN (SELECT MakeId FROM car_names WHERE Model IN (SELECT ModelId FROM model_list WHERE Maker IN (SELECT Maker FROM car_makers WHERE Maker = 'Volvo'))))
+SELECT COUNT(*) FROM cars_data WHERE Accelerate > (SELECT Accelerate FROM cars_data WHERE Horsepower = (SELECT MAX(Horsepower) FROM cars_data));
+SELECT count(*) FROM cars_data WHERE Accelerate > (SELECT MAX(Horsepower) FROM cars_data)
+SELECT count(*) FROM (SELECT Country FROM car_makers GROUP BY Country HAVING count(*) > 2)
+SELECT count(*) FROM (SELECT Country FROM car_makers GROUP BY Country HAVING count(*) > 2)
+SELECT count(*) FROM cars_data WHERE Cylinders > 6
+SELECT count(*) FROM cars_data WHERE Cylinders > 6
+SELECT Model FROM model_list WHERE Maker = (SELECT Maker FROM car_makers WHERE Maker = (SELECT Maker FROM model_list WHERE ModelId = (SELECT ModelId FROM car_names WHERE MakeId = (SELECT Id FROM cars_data WHERE Cylinders = 4 ORDER BY Horsepower DESC LIMIT 1))))
+SELECT T1.Model FROM model_list AS T1 JOIN car_makers AS T2 ON T1.Maker = T2.Maker JOIN car_names AS T3 ON T1.Model = T3.Model JOIN cars_data AS T4 ON T3.MakeId = T4.Id WHERE T4.Cylinders = 4 ORDER BY T4.Horsepower DESC LIMIT 1
+SELECT T1.Maker, T1.Maker FROM car_makers AS T1 JOIN model_list AS T2 ON T1.Maker = T2.Maker JOIN car_names AS T3 ON T2.Model = T3.Model JOIN cars_data AS T4 ON T3.MakeId = T4.Id WHERE T4.Horsepower > (SELECT MIN(Horsepower) FROM cars_data) AND T4.Cylinders <= 3;
+SELECT Maker, Maker FROM car_makers WHERE Maker IN (SELECT Maker FROM model_list WHERE ModelId IN (SELECT ModelId FROM car_names WHERE MakeId IN (SELECT Id FROM cars_data WHERE Cylinders < 4)))
+SELECT MAX(MPG) FROM cars_data AS T1 JOIN car_names AS T2 ON T1.Id = T2.MakeId JOIN model_list AS T3 ON T2.Model = T3.Model WHERE T1.Cylinders = 8 OR T1.Year < 1980
+SELECT max(MPG) FROM cars_data AS T1 JOIN car_names AS T2 ON T1.Id = T2.MakeId JOIN model_list AS T3 ON T2.Model = T3.Model WHERE (T1.Cylinders = 8 OR T1.Year < 1980)
+SELECT T2.Model FROM car_names AS T1 JOIN model_list AS T2 ON T1.Model = T2.Model JOIN car_makers AS T3 ON T2.Maker = T3.Maker JOIN cars_data AS T4 ON T1.MakeId = T4.Id WHERE T4.Weight < 3500 AND T3.Maker != 'Ford'
+SELECT DISTINCT Model FROM model_list JOIN car_names ON model_list.ModelId = car_names.ModelId JOIN cars_data ON car_names.MakeId = cars_data.Id JOIN car_makers ON model_list.Maker = car_makers.Maker WHERE Weight < 3500 AND Maker != 'Ford'
+SELECT CountryName FROM countries WHERE Country NOT IN (SELECT Country FROM car_makers)
+SELECT CountryName FROM countries WHERE Country NOT IN (SELECT Country FROM car_makers)
+SELECT T1.Maker, T1.FullName FROM car_makers AS T1 JOIN model_list AS T2 ON T1.Maker = T2.Maker GROUP BY T1.Maker, T1.FullName HAVING COUNT(DISTINCT T2.ModelId) >= 2 AND COUNT(DISTINCT T1.Maker) > 3
+SELECT Maker, Maker FROM car_makers WHERE Maker IN (SELECT Maker FROM model_list GROUP BY Maker HAVING COUNT(ModelId) >= 2) AND Maker IN (SELECT Maker FROM car_names GROUP BY Maker HAVING COUNT(MakeId) > 3)
+SELECT T1.Country, T1.CountryName FROM countries AS T1 JOIN car_makers AS T2 ON T1.Country = T2.Country JOIN model_list AS T3 ON T2.Maker = T3.Maker WHERE T2.Maker IN (SELECT Maker FROM car_makers GROUP BY Country HAVING count(*) > 3) OR T3.Model = 'fiat';
+SELECT T2.Country, T2.CountryName FROM car_makers AS T1 JOIN countries AS T2 ON T1.Country = T2.Country WHERE T1.Maker IN (SELECT Maker FROM car_makers GROUP BY Country HAVING count(*) > 3) OR T1.Maker = 'Fiat';

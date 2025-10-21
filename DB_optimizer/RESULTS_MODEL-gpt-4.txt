@@ -1,0 +1,84 @@
+SELECT count(*) FROM Document_Records
+SELECT count(*) FROM Document_Records
+SELECT document_id , document_name , document_description FROM Document_Records
+SELECT document_id, document_name, document_description FROM Document_Records
+SELECT document_name, template_id_fk FROM Document_Records WHERE document_description LIKE '%w%'
+SELECT document_name, template_id_fk FROM Document_Records WHERE document_description LIKE '%w%'
+SELECT T1.document_id, T1.template_id_fk, T1.document_description FROM Document_Records AS T1 WHERE T1.document_name = "Robbin CV";
+SELECT T1.document_id , T1.template_id_fk , T1.document_description FROM Document_Records AS T1 WHERE T1.document_name = "Robbin CV"
+SELECT count(DISTINCT template_id_fk) FROM Document_Records
+SELECT count(DISTINCT template_id_fk) FROM Document_Records
+SELECT count(*) FROM Document_Records dr JOIN Template_Versions tv ON dr.template_id_fk = tv.template_id WHERE tv.template_type_code_fk = 'PPT'
+SELECT count(*) FROM Document_Records dr JOIN Template_Versions tv ON dr.template_id_fk = tv.template_id JOIN Template_Types_Reference ttr ON tv.template_type_code_fk = ttr.template_type_code WHERE ttr.template_type_code = 'PPT'
+SELECT template_id_fk , count(*) FROM Document_Records GROUP BY template_id_fk
+SELECT template_id_fk, COUNT(*) as usage_count FROM Document_Records GROUP BY template_id_fk
+SELECT T1.template_id , T1.template_type_code_fk FROM Template_Versions AS T1 JOIN Document_Records AS T2 ON T1.template_id = T2.template_id_fk GROUP BY T1.template_id ORDER BY count(*) DESC LIMIT 1
+SELECT T1.template_id , T1.template_type_code_fk FROM Template_Versions AS T1 JOIN Document_Records AS T2 ON T1.template_id = T2.template_id_fk GROUP BY T1.template_id , T1.template_type_code_fk ORDER BY count(*) DESC LIMIT 1
+SELECT T1.template_id FROM Template_Versions AS T1 JOIN Document_Records AS T2 ON T1.template_id = T2.template_id_fk GROUP BY T1.template_id HAVING COUNT(*) > 1
+SELECT T1.template_id FROM Template_Versions AS T1 JOIN Document_Records AS T2 ON T1.template_id = T2.template_id_fk GROUP BY T1.template_id HAVING COUNT(*) > 1
+SELECT template_id FROM Template_Versions EXCEPT SELECT template_id_fk FROM Document_Records
+SELECT template_id FROM Template_Versions WHERE template_id NOT IN (SELECT template_id_fk FROM Document_Records)
+SELECT count(*) FROM Template_Versions
+SELECT count(*) FROM Template_Versions
+SELECT template_id , version_number , template_type_code_fk FROM Template_Versions
+SELECT template_id , version_number , template_type_code_fk FROM Template_Versions
+SELECT DISTINCT template_type_code_fk FROM Template_Versions
+SELECT DISTINCT template_type_code FROM Template_Types_Reference
+SELECT template_id FROM Template_Versions WHERE template_type_code_fk IN ('PP', 'PPT');
+SELECT template_id FROM Template_Versions WHERE template_type_code_fk IN ("PP", "PPT")
+SELECT count(*) FROM Template_Versions WHERE template_type_code_fk = "CV";
+SELECT count(*) FROM Template_Types_Reference WHERE template_type_code = 'CV'
+SELECT version_number , template_type_code_fk FROM Template_Versions WHERE version_number > 5
+SELECT version_number, template_type_code_fk FROM Template_Versions WHERE version_number > 5
+SELECT template_type_code_fk , count(*) FROM Template_Versions GROUP BY template_type_code_fk
+SELECT template_type_code_fk , count(*) FROM Template_Versions GROUP BY template_type_code_fk
+SELECT template_type_code_fk FROM Template_Versions GROUP BY template_type_code_fk ORDER BY count(*) DESC LIMIT 1
+SELECT template_type_code_fk, count(*) FROM Template_Versions GROUP BY template_type_code_fk ORDER BY count(*) DESC LIMIT 1
+SELECT template_type_code_fk FROM Template_Versions GROUP BY template_type_code_fk HAVING COUNT(*) < 3
+SELECT template_type_code_fk FROM Template_Versions GROUP BY template_type_code_fk HAVING count(*) < 3
+SELECT MIN(version_number), template_type_code_fk FROM Template_Versions;
+SELECT MIN(version_number), template_type_code_fk FROM Template_Versions GROUP BY template_type_code_fk
+SELECT "template_type_code_fk" FROM "Template_Versions" WHERE "template_id" IN (SELECT "template_id_fk" FROM "Document_Records" WHERE "document_name" = 'Data base')
+SELECT T1.template_type_code_fk FROM Template_Versions AS T1 JOIN Document_Records AS T2 ON T1.template_id = T2.template_id_fk WHERE T2.document_name = "Data base"
+SELECT document_name FROM Document_Records AS T1 JOIN Template_Versions AS T2 ON T1.template_id_fk = T2.template_id WHERE T2.template_type_code_fk = 'BK'
+SELECT document_name FROM Document_Records AS DR JOIN Template_Versions AS TV ON DR.template_id_fk = TV.template_id WHERE TV.template_type_code_fk = 'BK'
+SELECT template_type_code_fk , count(*) FROM Template_Versions INNER JOIN Document_Records ON Template_Versions.template_id = Document_Records.template_id_fk GROUP BY template_type_code_fk
+SELECT t.template_type_code, COUNT(d.document_id) FROM Template_Types_Reference t JOIN Template_Versions v ON t.template_type_code = v.template_type_code_fk JOIN Document_Records d ON v.template_id = d.template_id_fk GROUP BY t.template_type_code
+SELECT t1.template_type_code_fk FROM Template_Versions AS t1 JOIN Document_Records AS t2 ON t1.template_id = t2.template_id_fk GROUP BY t1.template_type_code_fk ORDER BY count(*) DESC LIMIT 1
+SELECT template_type_code_fk FROM Template_Versions JOIN Document_Records ON Template_Versions.template_id = Document_Records.template_id_fk GROUP BY template_type_code_fk ORDER BY count(*) DESC LIMIT 1
+SELECT template_type_code FROM Template_Types_Reference WHERE template_type_code NOT IN (SELECT template_type_code_fk FROM Template_Versions WHERE template_id IN (SELECT template_id_fk FROM Document_Records))
+SELECT template_type_code FROM Template_Types_Reference WHERE template_type_code NOT IN (SELECT template_type_code_fk FROM Template_Versions WHERE template_id IN (SELECT template_id_fk FROM Document_Records))
+SELECT template_type_code, template_type_description FROM Template_Types_Reference
+SELECT template_type_code , template_type_description FROM Template_Types_Reference 
+SELECT template_type_description FROM Template_Types_Reference WHERE template_type_code = 'AD'
+SELECT template_type_description FROM Template_Types_Reference WHERE template_type_code = "AD"
+SELECT template_type_code FROM Template_Types_Reference WHERE template_type_description = 'Book'
+SELECT template_type_code FROM Template_Types_Reference WHERE template_type_description = "Book"
+SELECT DISTINCT t1.template_type_description FROM Template_Types_Reference AS t1 JOIN Template_Versions AS t2 ON t1.template_type_code = t2.template_type_code_fk JOIN Document_Records AS t3 ON t2.template_id = t3.template_id_fk
+SELECT DISTINCT T1.template_type_description FROM Template_Types_Reference AS T1 JOIN Template_Versions AS T2 ON T1.template_type_code = T2.template_type_code_fk JOIN Document_Records AS T3 ON T2.template_id = T3.template_id_fk
+SELECT template_id FROM Template_Versions JOIN Template_Types_Reference ON Template_Versions.template_type_code_fk = Template_Types_Reference.template_type_code WHERE Template_Types_Reference.template_type_description = 'Presentation'
+SELECT template_id FROM Template_Types_Reference AS T1 JOIN Template_Versions AS T2 ON T1.template_type_code = T2.template_type_code_fk WHERE T1.template_type_description = 'Presentation'
+SELECT count(*) FROM Document_Paragraphs;
+SELECT count(*) FROM Document_Paragraphs
+SELECT count(*) FROM Document_Paragraphs WHERE document_id_fk = (SELECT document_id FROM Document_Records WHERE document_name = 'Summer Show');
+SELECT count(*) FROM Document_Paragraphs WHERE document_id_fk = (SELECT document_id FROM Document_Records WHERE document_name = 'Summer Show')
+SELECT paragraph_id, paragraph_text, paragraph_other_details FROM Document_Paragraphs WHERE paragraph_text = 'Korea'
+SELECT paragraph_text, paragraph_other_details FROM Document_Paragraphs WHERE paragraph_text LIKE '%Korea%'
+SELECT paragraph_id , paragraph_text FROM Document_Paragraphs WHERE document_id_fk = (SELECT document_id FROM Document_Records WHERE document_name = 'Welcome to NY')
+SELECT T1.paragraph_id, T1.paragraph_text FROM Document_Paragraphs AS T1 JOIN Document_Records AS T2 ON T1.document_id_fk = T2.document_id WHERE T2.document_name = 'Welcome to NY'
+SELECT paragraph_text FROM Document_Paragraphs AS T1 JOIN Document_Records AS T2 ON T1.document_id_fk = T2.document_id WHERE T2.document_name = 'Customer reviews'
+SELECT "paragraph_text" FROM "Document_Paragraphs" WHERE "document_id_fk" IN (SELECT "document_id" FROM "Document_Records" WHERE "document_name" = 'Customer reviews')
+SELECT T1.document_id , count(*) FROM Document_Records AS T1 JOIN Document_Paragraphs AS T2 ON T1.document_id = T2.document_id_fk GROUP BY T1.document_id ORDER BY T1.document_id
+SELECT document_id_fk, COUNT(*) FROM Document_Paragraphs GROUP BY document_id_fk ORDER BY document_id_fk
+SELECT T1.document_id, T1.document_name, count(*) FROM Document_Records AS T1 JOIN Document_Paragraphs AS T2 ON T1.document_id = T2.document_id_fk GROUP BY T1.document_id, T1.document_name
+SELECT T1.document_id , T1.document_name , count(*) FROM Document_Records AS T1 JOIN Document_Paragraphs AS T2 ON T1.document_id = T2.document_id_fk GROUP BY T1.document_id
+SELECT document_id_fk FROM Document_Paragraphs GROUP BY document_id_fk HAVING COUNT(*) >= 2
+SELECT T1.document_id FROM Document_Records AS T1 JOIN Document_Paragraphs AS T2 ON T1.document_id = T2.document_id_fk GROUP BY T1.document_id HAVING COUNT(*) >= 2
+SELECT T1.document_id, T1.document_name FROM Document_Records AS T1 JOIN Document_Paragraphs AS T2 ON T1.document_id = T2.document_id_fk GROUP BY T1.document_id ORDER BY count(*) DESC LIMIT 1
+SELECT T1.document_id , T1.document_name FROM Document_Records AS T1 JOIN Document_Paragraphs AS T2 ON T1.document_id = T2.document_id_fk GROUP BY T1.document_id ORDER BY count(*) DESC LIMIT 1
+SELECT document_id_fk FROM Document_Paragraphs GROUP BY document_id_fk ORDER BY count(*) LIMIT 1
+SELECT document_id_fk FROM Document_Paragraphs GROUP BY document_id_fk ORDER BY count(*) ASC LIMIT 1
+SELECT "document_id_fk" FROM "Document_Paragraphs" GROUP BY "document_id_fk" HAVING COUNT("paragraph_id") BETWEEN 1 AND 2
+SELECT "document_id_fk" FROM "Document_Paragraphs" GROUP BY "document_id_fk" HAVING COUNT(*) BETWEEN 1 AND 2
+SELECT document_id_fk FROM Document_Paragraphs WHERE paragraph_text IN ('Brazil', 'Ireland')
+SELECT document_id FROM Document_Records WHERE document_id IN (SELECT document_id_fk FROM Document_Paragraphs WHERE paragraph_text LIKE '%Brazil%' OR paragraph_text LIKE '%Ireland%')

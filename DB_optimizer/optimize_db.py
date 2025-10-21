@@ -1,47 +1,58 @@
+# ========================================
+# Optimize the spider database
+# Using GPT-4 for optimization, only the dataset used in the "test" was selected for optimization, while a new database that was not used before was also copied. 
+# create a new "spider database" folder with "optimied test-used db + original other db".
+# ========================================
+
 import sqlite3
 import os
 import json
 import openai
 import shutil
 from tqdm import tqdm
+from dotenv import load_dotenv
 
-# -----------------------------
-# 配置
-# -----------------------------
-# 数据库根目录 - 包含所有数据库文件夹
-database_root = r"C:\Users\grizz\OneDrive\Desktop\COSC448\ideas\model\DAIL-SQL\dataset\spider\database"
-# 输出根目录 - 保存所有优化后的数据库和复制的未使用数据库
-output_root = r"C:\Users\grizz\OneDrive\Desktop\COSC448\ideas\model\DAIL-SQL\dataset\optimized_spider\database"
-# dev的gold文件路径，用于提取用到的数据库
-dev_gold_path = r"C:\Users\grizz\OneDrive\Desktop\COSC448\ideas\model\DAIL-SQL\dataset\spider\dev_gold.sql"
+env_path = r"C:\Users\grizz\OneDrive\Desktop\COSC448\ideas\model\DAIL-SQL\.env"
+load_dotenv(env_path)
 
-# 创建输出根目录
+
+# ----------------------------- 
+# Configuration
+# -----------------------------
+# Database root directory - contains all database folders
+database_root = r"C:\Users\grizz\OneDrive\Desktop\COSC448\ideas\model\DAIL-SQL\dataset\spider_old\database"
+# Output root directory - stores all optimized databases and copied unused databases
+output_root = r"C:\Users\grizz\OneDrive\Desktop\COSC448\ideas\model\DAIL-SQL\dataset\spider\database"
+# Path to dev gold file, used to extract databases in use
+dev_gold_path = r"C:\Users\grizz\OneDrive\Desktop\COSC448\ideas\model\DAIL-SQL\dataset\spider_old\dev_gold.sql"
+
+# Create output root directory (ignore if exists)
 os.makedirs(output_root, exist_ok=True)
 
-# GPT 配置
-openai.api_key = ""  # 请填入你的API密钥
+# GPT Configuration
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # -----------------------------
-# 工具函数
+# Utility Functions
 # -----------------------------
 def extract_used_databases(file_path):
-    """从dev_gold.sql中提取用到的数据库名"""
+    """Extract names of databases used from dev_gold.sql"""
     used_dbs = set()
     with open(file_path, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
             if not line:
                 continue
-            # 每行最后一个制表符后面就是数据库名
+            # The database name is after the last tab character in each line
             if "\t" in line:
                 db_name = line.split("\t")[-1]
                 used_dbs.add(db_name)
     
-    print(f"✅ 提取完成，共发现 {len(used_dbs)} 个dev中用到的数据库")
+    print(f"✅ Extraction completed. Found {len(used_dbs)} databases used in dev environment")
     return used_dbs
 
 def get_sqlite_and_sql_files(db_folder):
-    """获取数据库文件夹中的sqlite和sql文件"""
+    """Get SQLite and SQL files from the database folder"""
     sqlite_file = None
     sql_file = None
     
@@ -51,15 +62,15 @@ def get_sqlite_and_sql_files(db_folder):
         elif file.endswith('.sql'):
             sql_file = os.path.join(db_folder, file)
     
-    # 检查文件名是否与文件夹名一致
+    # Check if file name matches folder name
     folder_name = os.path.basename(db_folder)
     if sqlite_file and os.path.splitext(os.path.basename(sqlite_file))[0] != folder_name:
-        print(f"警告: {db_folder} 中的SQLite文件与文件夹名不一致")
+        print(f"Warning: SQLite file in {db_folder} does not match folder name")
     
     return sqlite_file, sql_file
 
 def generate_db_summary(sqlite_file, summary_file):
-    """生成数据库摘要"""
+    """Generate database summary"""
     conn = sqlite3.connect(sqlite_file)
     cursor = conn.cursor()
     
@@ -93,7 +104,7 @@ def generate_db_summary(sqlite_file, summary_file):
         else:
             summary_lines.append("No data available.")
         
-        summary_lines.append("")  # 空行
+        summary_lines.append("")  # Empty line for separation
         db_info[table] = {"columns": [col[1] for col in columns]}
     
     conn.close()
@@ -104,21 +115,54 @@ def generate_db_summary(sqlite_file, summary_file):
     return db_info
 
 def get_optimized_mapping(summary_file):
-    """调用GPT获取优化映射"""
+    """Call GPT to get optimized name mapping"""
     with open(summary_file, "r", encoding="utf-8") as f:
         db_summary_text = f.read()
     
     prompt = f"""
-    Database Summary:
-    {db_summary_text}
-    
-    You are a database expert. I am providing the database schema and sample data. 
-    Some table names or column names may not clearly describe the data they contain (especially table names that are ambiguous). 
-    Please optimize the names to reduce ambiguity and improve clarity. Focus on **semantic improvements** rather than just concatenating or changing the style of the names. 
-    Only return a **pure JSON object** in the following format (Do not add any Markdown formatting like ```json. Only output the raw JSON object.):
-    
-    {{"tables": [{{"old_name": "...", "new_name": "...", "columns": [{{"old_name": "...", "new_name": "..."}}, ...]}}, ...]}}
-    """
+        Database Summary:
+        {db_summary_text}
+
+        You are a database and schema design expert. I am providing the database schema and some sample data.
+        Some table or column names may be unclear, ambiguous, or not accurately describe the data they contain.
+
+        Your task is to **optimize table and column names** to make them clearer and more semantically precise, while keeping the meaning consistent with the actual data.
+
+        Follow these strict naming rules:
+        1. **Avoid over-generalization.**
+        Do not replace a specific concept with a broader one.
+        Example: if a table represents "employees", do NOT rename it to "persons".
+        Keep the name as specific as its data meaning.
+
+        2. **Ensure every column name is unique across the database.**
+        If multiple tables contain similar column names like "id" or "name",
+        make each unique by prefixing the related table name.
+        For example:
+        - "id" → "employee_id"
+        - "name" → "department_name"
+
+        3. **Add `_fk` suffix to all foreign key columns.**
+        For example:
+        - "customer_id" in the "orders" table → "customer_id_fk"
+        - If the name already ends with `_fk`, keep it.
+
+        Output only a **pure JSON object** (no Markdown, no code blocks), in the format below:
+
+        {{
+        "tables": [
+            {{
+            "old_name": "...",
+            "new_name": "...",
+            "columns": [
+                {{"old_name": "...", "new_name": "..."}},
+                ...
+            ]
+            }},
+            ...
+        ]
+        }}
+        """
+
     
     try:
         response = openai.chat.completions.create(
@@ -130,41 +174,41 @@ def get_optimized_mapping(summary_file):
         optimized_mapping = response.choices[0].message.content
         return json.loads(optimized_mapping)
     except Exception as e:
-        print(f"获取优化映射时出错: {str(e)}")
+        print(f"Error getting optimized mapping: {str(e)}")
         return None
 
 def optimize_database(sqlite_file, output_folder, db_name, optimized_map):
-    """优化数据库表名和列名，保持原文件名不变"""
-    # 创建输出文件夹
+    """Optimize database table and column names, keep original file names unchanged"""
+    # Create output folder (ignore if exists)
     os.makedirs(output_folder, exist_ok=True)
     
-    # 获取原始文件名（不修改名称）
+    # Get original file names (no modification)
     sqlite_filename = os.path.basename(sqlite_file)
     sql_filename = f"{os.path.splitext(sqlite_filename)[0]}.sql"
     
-    # 新数据库文件路径 - 使用原始文件名
+    # Paths for new database files - use original file names
     new_sqlite_file = os.path.join(output_folder, sqlite_filename)
     new_sql_file = os.path.join(output_folder, sql_filename)
     mapping_file = os.path.join(output_folder, f"{db_name}_name_mapping.json")
     error_log_file = os.path.join(output_folder, f"{db_name}_errors.log")
     
-    # 初始化错误日志
+    # Initialize error log
     errors = []
     
     try:
-        # 拷贝原数据到新数据库
+        # Copy original data to new database file
         shutil.copy(sqlite_file, new_sqlite_file)
         
-        # 连接新数据库并设置适当的文本处理方式
+        # Connect to new database and set appropriate text handling
         new_conn = sqlite3.connect(new_sqlite_file)
         new_conn.text_factory = lambda x: x.decode('utf-8', errors='replace') if x else x
         new_cursor = new_conn.cursor()
         
-        # 获取所有现有表名
+        # Get all existing table names
         new_cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
         existing_tables = [row[0] for row in new_cursor.fetchall()]
         
-        # 先收集所有表名更改，检查是否有冲突
+        # Collect all table name changes first and check for conflicts
         table_renames = []
         if optimized_map and "tables" in optimized_map:
             for table in optimized_map["tables"]:
@@ -172,41 +216,41 @@ def optimize_database(sqlite_file, output_folder, db_name, optimized_map):
                 new_table = table["new_name"]
                 
                 if old_table != new_table:
-                    # 检查目标表名是否已存在
+                    # Check if target table name already exists
                     if new_table in existing_tables and new_table != old_table:
-                        # 如果存在冲突，生成一个唯一的表名
+                        # Generate unique table name if conflict exists
                         original_new_table = new_table
                         counter = 1
                         while new_table in existing_tables:
                             new_table = f"{original_new_table}_{counter}"
                             counter += 1
-                        error_msg = f"表名冲突，将 {old_table} 重命名为 {new_table} 而非 {original_new_table}"
+                        error_msg = f"Table name conflict. Renaming {old_table} to {new_table} instead of {original_new_table}"
                         print(f"⚠️ {error_msg}")
                         errors.append(error_msg)
                     
                     table_renames.append((old_table, new_table))
-                    # 更新现有表名列表，以便后续检查
+                    # Update existing tables list for subsequent checks
                     if old_table in existing_tables:
                         existing_tables.remove(old_table)
                         existing_tables.append(new_table)
         
-        # 执行表重命名
+        # Execute table renaming
         rename_log = []
         for old_table, new_table in table_renames:
             try:
                 new_cursor.execute(f'ALTER TABLE "{old_table}" RENAME TO "{new_table}";')
-                rename_log.append(f'表: "{old_table}" -> "{new_table}"')
+                rename_log.append(f'Table: "{old_table}" -> "{new_table}"')
             except sqlite3.OperationalError as e:
-                error_msg = f'无法重命名表 {old_table} 到 {new_table}: {str(e)}'
+                error_msg = f'Failed to rename table {old_table} to {new_table}: {str(e)}'
                 rename_log.append(f'⚠️ {error_msg}')
                 errors.append(error_msg)
         
-        # 重命名列
+        # Rename columns
         column_renames = []
         if optimized_map and "tables" in optimized_map:
             for table in optimized_map["tables"]:
                 old_table = table["old_name"]
-                # 找到新表名，如果没有重命名则使用旧表名
+                # Find new table name (use old name if no renaming occurred)
                 new_table = next((nt for ot, nt in table_renames if ot == old_table), old_table)
                 
                 if "columns" in table:
@@ -219,16 +263,16 @@ def optimize_database(sqlite_file, output_folder, db_name, optimized_map):
                                 existing_cols = [c[1] for c in new_cursor.fetchall()]
                                 
                                 if new_col in existing_cols:
-                                    error_msg = f'跳过列 {new_table}."{old_col}" 的重命名，目标列名 "{new_col}" 已存在'
+                                    error_msg = f'Skipping renaming of column {new_table}."{old_col}" - target column name "{new_col}" already exists'
                                     rename_log.append(f'⚠️ {error_msg}')
                                     errors.append(error_msg)
                                     column_renames.append((old_table, new_table, old_col, old_col))
                                 else:
                                     new_cursor.execute(f'ALTER TABLE "{new_table}" RENAME COLUMN "{old_col}" TO "{new_col}";')
-                                    rename_log.append(f'列: {new_table}."{old_col}" -> "{new_col}"')
+                                    rename_log.append(f'Column: {new_table}."{old_col}" -> "{new_col}"')
                                     column_renames.append((old_table, new_table, old_col, new_col))
                             except sqlite3.OperationalError as e:
-                                error_msg = f'无法重命名列 {new_table}."{old_col}" 到 "{new_col}": {str(e)}'
+                                error_msg = f'Failed to rename column {new_table}."{old_col}" to "{new_col}": {str(e)}'
                                 rename_log.append(f'⚠️ {error_msg}')
                                 errors.append(error_msg)
                                 column_renames.append((old_table, new_table, old_col, old_col))
@@ -238,7 +282,7 @@ def optimize_database(sqlite_file, output_folder, db_name, optimized_map):
         new_conn.commit()
         new_conn.close()
         
-        # 保存映射关系到JSON文件
+        # Save mapping relationship to JSON file
         mapping = {
             "table_mapping": [{"old_name": ot, "new_name": nt} for ot, nt in table_renames],
             "all_tables": [{"old_name": table["old_name"], 
@@ -251,15 +295,15 @@ def optimize_database(sqlite_file, output_folder, db_name, optimized_map):
         with open(mapping_file, "w", encoding="utf-8") as f:
             json.dump(mapping, f, ensure_ascii=False, indent=2)
         
-        # 生成新的SQL文件（使用原始文件名，增强编码处理）
+        # Generate new SQL file (use original file name, enhance encoding handling)
         try:
             new_conn = sqlite3.connect(new_sqlite_file)
-            # 处理特殊字符
+            # Handle special characters
             new_conn.text_factory = lambda x: str(x, 'utf-8', 'replace')
             
             with open(new_sql_file, "w", encoding="utf-8", errors="replace") as f:
                 for line in new_conn.iterdump():
-                    # 确保每行都能正确编码
+                    # Ensure each line is encoded correctly
                     try:
                         line = line.encode('utf-8', errors='replace').decode('utf-8')
                     except UnicodeError:
@@ -267,17 +311,17 @@ def optimize_database(sqlite_file, output_folder, db_name, optimized_map):
                     f.write(f"{line}\n")
             new_conn.close()
         except sqlite3.OperationalError as e:
-            error_msg = f"生成SQL文件时出错: {str(e)}"
+            error_msg = f"Error generating SQL file: {str(e)}"
             print(f"⚠️ {error_msg}")
             errors.append(error_msg)
-            # 创建一个标记错误的SQL文件
+            # Create a SQL file marking the error
             with open(new_sql_file, "w", encoding="utf-8") as f:
-                f.write(f"-- 生成SQL文件时出错: {str(e)}\n")
+                f.write(f"-- Error generating SQL file: {str(e)}\n")
         
-        # 保存错误日志
+        # Save error log if there are errors
         if errors:
             with open(error_log_file, "w", encoding="utf-8") as f:
-                f.write("数据库优化过程中出现以下错误：\n")
+                f.write("The following errors occurred during database optimization:\n")
                 f.write("\n".join(errors))
         
         return {
@@ -289,13 +333,13 @@ def optimize_database(sqlite_file, output_folder, db_name, optimized_map):
         }
         
     except Exception as e:
-        error_msg = f"优化数据库时发生致命错误: {str(e)}"
+        error_msg = f"Critical error during database optimization: {str(e)}"
         print(f"❌ {error_msg}")
         errors.append(error_msg)
         
-        # 保存错误日志
+        # Save error log
         with open(error_log_file, "w", encoding="utf-8") as f:
-            f.write("数据库优化过程中出现致命错误：\n")
+            f.write("Critical error occurred during database optimization:\n")
             f.write("\n".join(errors))
             
         return {
@@ -308,86 +352,85 @@ def optimize_database(sqlite_file, output_folder, db_name, optimized_map):
 
 
 def copy_unused_database(db_folder, output_root):
-    """复制未使用的数据库到输出目录"""
+    """Copy unused databases to output directory"""
     source_path = os.path.join(database_root, db_folder)
     dest_path = os.path.join(output_root, db_folder)
     
-    # 如果目标路径已存在，先删除
+    # Delete destination path if it already exists
     if os.path.exists(dest_path):
         shutil.rmtree(dest_path)
     
-    # 复制整个文件夹
+    # Copy entire folder
     shutil.copytree(source_path, dest_path)
-    print(f"✅ 已复制未使用的数据库: {db_folder} 到 {dest_path}")
+    print(f"✅ Copied unused database: {db_folder} to {dest_path}")
 
 # -----------------------------
-# 主程序 - 优化dev用到的数据库，复制其他所有数据库
+# Main Program - Optimize databases used in dev, copy all other databases
 # -----------------------------
 def main():
-    # 提取dev中用到的数据库
+    # Extract databases used in dev environment
     used_dbs = extract_used_databases(dev_gold_path)
     if not used_dbs:
-        print("没有需要处理的数据库")
+        print("No databases need to be processed")
         return
     
-    # 获取所有数据库文件夹
+    # Get all database folders
     all_db_folders = [f for f in os.listdir(database_root) 
                      if os.path.isdir(os.path.join(database_root, f))]
     
-    # 筛选出需要处理的数据库和需要复制的数据库
+    # Filter databases to be optimized and databases to be copied
     db_folders_to_process = [db for db in all_db_folders if db in used_dbs]
     db_folders_to_copy = [db for db in all_db_folders if db not in used_dbs]
     
-    print(f"需要优化的数据库数量: {len(db_folders_to_process)}")
-    print(f"需要复制的未使用数据库数量: {len(db_folders_to_copy)}")
+    print(f"Number of databases to optimize: {len(db_folders_to_process)}")
+    print(f"Number of unused databases to copy: {len(db_folders_to_copy)}")
     
-    # 先复制所有未使用的数据库
-    print("\n开始复制未使用的数据库...")
-    for db_folder in tqdm(db_folders_to_copy, desc="复制未使用数据库"):
+    # First copy all unused databases
+    print("\nStarting to copy unused databases...")
+    for db_folder in tqdm(db_folders_to_copy, desc="Copying unused databases"):
         copy_unused_database(db_folder, output_root)
     
-    # 然后处理需要优化的数据库
-    print("\n开始优化dev中用到的数据库...")
-    for db_folder in tqdm(db_folders_to_process, desc="优化数据库"):
+    # Then process databases that need optimization
+    print("\nStarting to optimize databases used in dev...")
+    for db_folder in tqdm(db_folders_to_process, desc="Optimizing databases"):
         db_path = os.path.join(database_root, db_folder)
         output_folder = os.path.join(output_root, db_folder)
         
-        # 创建数据库特定的输出文件夹
+        # Create database-specific output folder
         os.makedirs(output_folder, exist_ok=True)
         
-        # 获取SQLite和SQL文件
+        # Get SQLite and SQL files
         sqlite_file, sql_file = get_sqlite_and_sql_files(db_path)
         
         if not sqlite_file:
-            print(f"跳过 {db_folder} - 未找到SQLite文件")
+            print(f"Skipping {db_folder} - No SQLite file found")
             continue
         
-        print(f"\n处理数据库: {db_folder}")
-        print(f"SQLite文件: {sqlite_file}")
+        print(f"\nProcessing database: {db_folder}")
+        print(f"SQLite file: {sqlite_file}")
         
-        # 1. 生成数据库摘要
+        # 1. Generate database summary
         summary_file = os.path.join(output_folder, f"{db_folder}_summary.txt")
         generate_db_summary(sqlite_file, summary_file)
-        print(f"✅ 数据库摘要已生成: {summary_file}")
+        print(f"✅ Database summary generated: {summary_file}")
         
-        # 2. 获取优化映射
+        # 2. Get optimized mapping
         optimized_map = get_optimized_mapping(summary_file)
         if not optimized_map:
-            print(f"❌ 获取优化映射失败，跳过 {db_folder}")
+            print(f"❌ Failed to get optimized mapping, skipping {db_folder}")
             continue
-        print("✅ GPT 优化映射已生成")
+        print("✅ GPT optimized mapping generated")
         
-        # 3. 优化数据库
+        # 3. Optimize database
         result = optimize_database(sqlite_file, output_folder, db_folder, optimized_map)
         
-        # 4. 输出结果
-        print(f"✅ 优化完成: {result['new_sqlite']}")
-        print(f"✅ 映射文件: {result['mapping']}")
-        print(f"✅ SQL文件: {result['new_sql']}")
+        # 4. Output results
+        print(f"✅ Optimization completed: {result['new_sqlite']}")
+        print(f"✅ Mapping file: {result['mapping']}")
+        print(f"✅ SQL file: {result['new_sql']}")
     
-    print("\n所有操作完成!")
-    print(f"优化后的数据库和复制的数据库已保存到: {output_root}")
+    print("\nAll operations completed!")
+    print(f"Optimized databases and copied databases are saved to: {output_root}")
 
 if __name__ == "__main__":
     main()
-    

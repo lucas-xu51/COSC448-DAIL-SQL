@@ -62,7 +62,8 @@ class BasicDataset(object):
         return os.path.join(self.path_db, db_id, f"{db_id}.sqlite")
 
     def get_train_questions(self):
-        questions = json.load(open(self.train_json, "r"))
+        # questions = json.load(open(self.train_json, "r"))
+        questions = json.load(open(self.train_json, "r", encoding="utf-8"))
         return [_["question"] for _ in questions]
 
     def get_mini_index(self):
@@ -93,7 +94,8 @@ class BasicDataset(object):
 
     # get all train information
     def get_train_json(self):
-        datas = json.load(open(self.train_json, "r"))
+        # datas = json.load(open(self.train_json, "r"))
+        datas = json.load(open(self.train_json, "r", encoding="utf-8"))
         linking_infos = self.get_train_schema_linking()
         db_id_to_table_json = dict()
         for table_json in self.get_table_json():
